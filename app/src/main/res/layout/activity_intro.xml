@@ -10,7 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#19191b"
+        android:background="@drawable/backgroundsnake2"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,12 +22,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:padding="22dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:background="@drawable/gradient_color_background">
+                android:layout_height="432dp"
+                android:layout_marginBottom="10dp">
 
 
                 <TextView
@@ -34,19 +37,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Snake Math"
+                    android:text="SNAKE MATH"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="48sp"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="260dp"
-                    android:layout_height="260dp"
-                    android:layout_marginBottom="160dp"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    android:layout_marginBottom="40dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -66,19 +70,6 @@
                     app:srcCompat="@drawable/logotipo"
                     app:strokeWidth="1dp" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:text="Practica tus matematicas con nosotros"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -89,41 +80,41 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Jugar"
                     android:background="@drawable/contorno_boton"
+                    android:gravity="center"
+                    android:text="Jugar"
                     android:textColor="@color/white"
                     android:textSize="18dp"
-                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button2"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Config"
-                    android:background="@drawable/contorno_boton"
-                    android:textColor="@color/white"
                     android:layout_marginTop="15dp"
-                    android:textSize="18dp"
+                    android:background="@drawable/contorno_boton"
                     android:gravity="center"
+                    android:text="Config"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/button" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button4"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Tutorial"
-                    android:background="@drawable/contorno_boton"
-                    android:textColor="@color/white"
                     android:layout_marginTop="15dp"
-                    android:textSize="18dp"
+                    android:background="@drawable/contorno_boton"
                     android:gravity="center"
+                    android:text="Tutorial"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/button2" />
