@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#19191b"
+        android:background="@drawable/backgroundsnake2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -27,14 +27,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/gradient_color_background">
+                android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button3"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginEnd="100dp"
                     android:background="@drawable/boton_test"
                     android:gravity="center"
                     android:text="TEST"
@@ -78,39 +79,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="APRENDIENDO A MULTIPLICAR"
+                    android:textStyle="bold"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="#F2F2F2"
                     android:textSize="25sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginTop="50dp"
-                    android:text="¿Quieren continuar? vamos a aprender algo diferente se llaman multiplicaciones."
-                    android:textAlignment="inherit"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-                <TextView
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="¿Qué son las multiplicaciones?"
-                    android:textAlignment="center"
-                    android:textColor="#E7CABB"
+                    android:paddingTop="0dp"
+                    android:text="¿Porque multiplicamos?"
+                    android:textColor="#FFFFFF"
                     android:textSize="22dp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -118,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="Sumar es juntar dos o más números para obtener un número más grande. Por ejemplo, si tienes 2 manzanas y luego consigues 3 manzanas más, ¿cuántas manzanas tienes en total? ¡Vamos a sumar para averiguarlo!"
+                    android:justificationMode="inter_word"
                     android:textAlignment="inherit"
                     android:textColor="@color/white"
                     android:textSize="16dp"
@@ -130,9 +120,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Importancia de la multiplicacion"
-                    android:textAlignment="center"
-                    android:textColor="#E7CABB"
+                    android:text="¿Como usamos las multiplicaciones?"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
                     android:textSize="22dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -145,6 +135,7 @@
                     android:layout_margin="10dp"
                     android:text="La suma es muy importante porque la usamos todos los días. Por ejemplo, cuando vamos de compras y queremos saber cuánto dinero necesitamos para comprar varias cosas, usamos la suma. "
                     android:textAlignment="inherit"
+                    android:justificationMode="inter_word"
                     android:textColor="@color/white"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -156,11 +147,13 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imageView3"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6"
                     app:srcCompat="@drawable/circulo_transparente" />
 
@@ -181,9 +174,11 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toBottomOf="@+id/textView6"
