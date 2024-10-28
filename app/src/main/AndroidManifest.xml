@@ -36,6 +36,23 @@
         <activity android:name=".TutorialDivision">
 
         </activity>
+
+        <activity android:name=".TestSuma">
+
+        </activity>
+
+        <activity android:name=".TestResta">
+
+        </activity>
+
+        <activity android:name=".TestMultiplicacion">
+
+        </activity>
+
+        <activity android:name=".TestDivision">
+
+        </activity>
+
     </application>
 
 </manifest>
