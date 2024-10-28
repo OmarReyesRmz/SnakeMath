@@ -34,7 +34,7 @@ class TutorialMultipicacion: AppCompatActivity() {
 
         webView.webChromeClient = WebChromeClient()
 
-        val videoUrl = "https://www.youtube.com/embed/42vjqtleG9E&t=1s"
+        val videoUrl = "https://www.youtube.com/embed/YFtEaVw5k1A"
         webView.loadUrl(videoUrl)
 
         val volver: Button = findViewById(R.id.button)

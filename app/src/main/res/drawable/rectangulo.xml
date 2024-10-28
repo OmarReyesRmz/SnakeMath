@@ -5,8 +5,8 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="#99EECC"
-                android:endColor="#FFBA54"
+                android:startColor="#41B7ED"
+                android:endColor="#88D9FE"
                 android:angle="315"/>
             <!-- Esto define el grosor del borde -->
             <corners android:radius="10dp"/>
