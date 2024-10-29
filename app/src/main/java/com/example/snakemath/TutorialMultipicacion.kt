@@ -40,6 +40,12 @@ class TutorialMultipicacion: AppCompatActivity() {
         val volver: Button = findViewById(R.id.button)
         val siguiente: Button = findViewById(R.id.button2)
         val test: Button = findViewById(R.id.button3)
+        val menu: Button = findViewById(R.id.buttonmenu)
+
+        menu.setOnClickListener{
+            val intent = Intent(this, Intro::class.java)
+            startActivity(intent)
+        }
 
         volver.setOnClickListener{
             val intent = Intent(this, TutorialResta::class.java)

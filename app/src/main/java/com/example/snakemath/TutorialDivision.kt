@@ -38,16 +38,16 @@ class TutorialDivision: AppCompatActivity() {
         webView.loadUrl(videoUrl)
 
         val volver: Button = findViewById(R.id.button)
-        val siguiente: Button = findViewById(R.id.button2)
         val test: Button = findViewById(R.id.button3)
+        val menu: Button = findViewById(R.id.buttonmenu)
 
-        volver.setOnClickListener{
-            val intent = Intent(this, TutorialMultipicacion::class.java)
+        menu.setOnClickListener{
+            val intent = Intent(this, Intro::class.java)
             startActivity(intent)
         }
 
-        siguiente.setOnClickListener{
-            val intent = Intent(this, Intro::class.java)
+        volver.setOnClickListener{
+            val intent = Intent(this, TutorialMultipicacion::class.java)
             startActivity(intent)
         }
 
