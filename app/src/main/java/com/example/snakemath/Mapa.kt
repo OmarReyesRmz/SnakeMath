@@ -1,7 +1,11 @@
 package com.example.snakemath
 
+import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
