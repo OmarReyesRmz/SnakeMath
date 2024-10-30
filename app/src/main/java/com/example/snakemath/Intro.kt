@@ -23,6 +23,11 @@ class Intro: AppCompatActivity() {
         val config: Button = findViewById(R.id.button2)
         val tutorial: Button = findViewById(R.id.button4)
 
+        jugar.setOnClickListener{
+            val intent = Intent(this,Mapa::class.java)
+            startActivity(intent)
+        }
+
         tutorial.setOnClickListener{
             val intent = Intent(this, TutorialSuma::class.java)
             startActivity(intent)

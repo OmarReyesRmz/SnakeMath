@@ -5,5 +5,8 @@
     <color name="correct_answer">#4CAF50</color>
     <color name="incorrect_answer">#F44336</color>
     <color name="azul">#8996E4</color>
+    <color name="transparente">#4D5B5C5D</color>
+    <color name="joy">#98E7C8</color>
+
 
 </resources>
