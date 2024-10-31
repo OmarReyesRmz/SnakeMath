@@ -59,6 +59,10 @@
 
         
 
+        <activity android:name=".Mapa">
+
+        </activity>
+
     </application>
 
 </manifest>

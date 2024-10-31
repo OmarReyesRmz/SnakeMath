@@ -34,12 +34,18 @@ class TutorialResta: AppCompatActivity() {
 
         webView.webChromeClient = WebChromeClient()
 
-        val videoUrl = "https://www.youtube.com/embed/42vjqtleG9E&t=39s"
+        val videoUrl = "https://www.youtube.com/embed/42vjqtleG9E"
         webView.loadUrl(videoUrl)
 
         val volver: Button = findViewById(R.id.button)
         val siguiente: Button = findViewById(R.id.button2)
         val test: Button = findViewById(R.id.button3)
+        val menu: Button = findViewById(R.id.buttonmenu)
+
+        menu.setOnClickListener{
+            val intent = Intent(this, Intro::class.java)
+            startActivity(intent)
+        }
 
         volver.setOnClickListener{
             val intent = Intent(this, TutorialSuma::class.java)

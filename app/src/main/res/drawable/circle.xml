@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="ring"
-    android:thickness="5dp"
-    android:innerRadiusRatio="2.1"
-    android:useLevel="false">
-
-    <gradient
-        android:startColor="#005A7FFE"
-        android:endColor="#00819DFB"
-        android:angle="315"/>
-
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="50dp"/>
+            <gradient android:startColor="#4394F2"
+                android:endColor="#88D9FE"
+                android:type="linear"
+                android:angle="315"/>
+            <size android:width="24dp"
+                android:height="24dp"/>
+        </shape>
+    </item>
+    <item
+        android:top="4dp"
+        android:bottom="4dp"
+        android:left="4dp"
+        android:right="4dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="50dp"/>
+        </shape>
+    </item>
+</layer-list>

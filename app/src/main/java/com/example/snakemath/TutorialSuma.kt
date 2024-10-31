@@ -38,7 +38,7 @@ class TutorialSuma: AppCompatActivity() {
         val videoUrl = "https://www.youtube.com/embed/oexd_Dfic_Q"
         webView.loadUrl(videoUrl)
 
-        val volver: Button = findViewById(R.id.button)
+        val volver: Button = findViewById(R.id.buttonmenu)
         val siguiente: Button = findViewById(R.id.button2)
         val test: Button = findViewById(R.id.button3)
 
