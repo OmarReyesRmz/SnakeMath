@@ -1,5 +1,7 @@
 package com.example.snakemath
 
+import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -27,6 +29,10 @@ class TestSuma : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var correctAnswer = 0
     private var selectedOptionIndex = -1
+    private var correctAnswersCount = 0 // Contador de respuestas correctas
+
+    private lateinit var respcorrecta: MediaPlayer
+    private lateinit var respincorrecta: MediaPlayer
 
     // Lista de 20 preguntas y sus opciones
     private val questions = listOf(
@@ -57,11 +63,8 @@ class TestSuma : AppCompatActivity() {
         listOf("10", "12", "11", "13") // 5 + 7 = 12 (1)
     )
 
-    //Respuestas dependiendo de la posicion de la lista
     private val correctAnswers = listOf(2, 1, 2, 1, 2, 0, 1, 3, 1, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 1)
 
-
-    // Seleccionar aleatoriamente 10 preguntas de la lista de las 20 preguntas
     private val selectedQuestions = (questions.indices).shuffled().take(10)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +75,9 @@ class TestSuma : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        respcorrecta = MediaPlayer.create(this, R.raw.respcorrecta)
+        respincorrecta = MediaPlayer.create(this, R.raw.respincorrecta)
 
         questionText = findViewById(R.id.question_text)
         option1 = findViewById(R.id.opt_1)
@@ -84,7 +90,6 @@ class TestSuma : AppCompatActivity() {
 
         loadQuestion()
 
-        // Listeners de opciones
         val optionViews = listOf(option1, option2, option3, option4)
         for ((index, option) in optionViews.withIndex()) {
             option.setOnClickListener {
@@ -92,7 +97,6 @@ class TestSuma : AppCompatActivity() {
             }
         }
 
-        // Listener del botón de enviar
         submitButton.setOnClickListener {
             checkAnswer()
         }
@@ -112,13 +116,12 @@ class TestSuma : AppCompatActivity() {
             correctAnswer = correctAnswers[questionIndex]
             resetOptionColors()
         } else {
-            Toast.makeText(this, "¡Test completado!", Toast.LENGTH_SHORT).show()
-            finish()
+            // Fin del test - Lanza la actividad de resultados
+            showResults()
         }
     }
 
     private fun resetOptionColors() {
-        // Restablece el fondo de todas las opciones
         option1.setBackgroundResource(android.R.color.transparent)
         option2.setBackgroundResource(android.R.color.transparent)
         option3.setBackgroundResource(android.R.color.transparent)
@@ -127,7 +130,7 @@ class TestSuma : AppCompatActivity() {
     }
 
     private fun selectOption(index: Int) {
-        resetOptionColors() // Limpia la selección anterior
+        resetOptionColors()
         val selectedOption = when (index) {
             0 -> option1
             1 -> option2
@@ -153,16 +156,26 @@ class TestSuma : AppCompatActivity() {
 
         if (selectedOptionIndex == correctAnswer) {
             selectedOptionView.setBackgroundResource(R.color.correct_answer)
+            respcorrecta.start()
+            correctAnswersCount++ // Incrementa el contador de respuestas correctas
             Toast.makeText(this, "¡Respuesta Correcta!", Toast.LENGTH_SHORT).show()
         } else {
             selectedOptionView.setBackgroundResource(R.color.incorrect_answer)
-            Toast.makeText(this, "Respuesta Incorrecta", Toast.LENGTH_SHORT).show()
+            respincorrecta.start()
+            Toast.makeText(this, "Respuesta Incoorrecta", Toast.LENGTH_SHORT).show()
         }
 
-        // Esperar un momento y pasar a la siguiente pregunta
         Handler(Looper.getMainLooper()).postDelayed({
             currentQuestionIndex++
             loadQuestion()
         }, 1000)
+    }
+
+    private fun showResults() {
+        val intent = Intent(this, Resultado::class.java)
+        intent.putExtra("PUNTAJE_OBTENIDO", correctAnswersCount)
+        intent.putExtra("TOTAL_PREGUNTAS", selectedQuestions.size)
+        startActivity(intent)
+        finish()
     }
 }

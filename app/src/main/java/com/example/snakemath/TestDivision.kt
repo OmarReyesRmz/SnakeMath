@@ -1,5 +1,7 @@
 package com.example.snakemath
 
+import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -27,6 +29,10 @@ class TestDivision : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var correctAnswer = 0
     private var selectedOptionIndex = -1
+    private var correctAnswersCount = 0 // Contador de respuestas correctas
+
+    private lateinit var respcorrecta: MediaPlayer
+    private lateinit var respincorrecta: MediaPlayer
 
     // Lista de 20 preguntas de división
     private val questions = listOf(
@@ -73,6 +79,9 @@ class TestDivision : AppCompatActivity() {
             insets
         }
 
+        respcorrecta = MediaPlayer.create(this, R.raw.respcorrecta)
+        respincorrecta = MediaPlayer.create(this, R.raw.respincorrecta)
+
         questionText = findViewById(R.id.question_text)
         option1 = findViewById(R.id.opt_1)
         option2 = findViewById(R.id.opt_2)
@@ -112,8 +121,8 @@ class TestDivision : AppCompatActivity() {
             correctAnswer = correctAnswers[questionIndex]
             resetOptionColors()
         } else {
-            Toast.makeText(this, "¡Test completado!", Toast.LENGTH_SHORT).show()
-            finish()
+            // Fin del test - Lanza la actividad de resultados
+            showResults()
         }
     }
 
@@ -153,9 +162,12 @@ class TestDivision : AppCompatActivity() {
 
         if (selectedOptionIndex == correctAnswer) {
             selectedOptionView.setBackgroundResource(R.color.correct_answer)
+            respcorrecta.start()
+            correctAnswersCount++
             Toast.makeText(this, "¡Respuesta Correcta!", Toast.LENGTH_SHORT).show()
         } else {
             selectedOptionView.setBackgroundResource(R.color.incorrect_answer)
+            respincorrecta.start()
             Toast.makeText(this, "Respuesta Incorrecta", Toast.LENGTH_SHORT).show()
         }
 
@@ -164,5 +176,13 @@ class TestDivision : AppCompatActivity() {
             currentQuestionIndex++
             loadQuestion()
         }, 1000)
+    }
+
+    private fun showResults() {
+        val intent = Intent(this, Resultado::class.java)
+        intent.putExtra("PUNTAJE_OBTENIDO", correctAnswersCount)
+        intent.putExtra("TOTAL_PREGUNTAS", selectedQuestions.size)
+        startActivity(intent)
+        finish()
     }
 }

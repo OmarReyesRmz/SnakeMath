@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/resultado"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/resultado"
+    android:padding="10dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:context=".Resultado">
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/congratulations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Test Completado"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Tu puntaje es:"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="4/5"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/button_completed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="COMPLETADO"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

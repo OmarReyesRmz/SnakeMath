@@ -5,5 +5,9 @@
     <color name="correct_answer">#4CAF50</color>
     <color name="incorrect_answer">#F44336</color>
     <color name="azul">#8996E4</color>
+    <color name="res1">#6AF46F</color>
+    <color name="res2">#048A09</color>
+    <color name="preg1">#67B5F4</color>
+    <color name="preg2">#086FC1</color>
 
 </resources>
