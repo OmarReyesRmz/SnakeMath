@@ -7,11 +7,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Matrix
 import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.View
 import com.example.snakemath.R
-import android.graphics.Matrix
 
 class CanvasMap @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -19,19 +19,28 @@ class CanvasMap @JvmOverloads constructor(
 
     private var mapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_modified)
     private val nextMapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_suma)
-    // Define el ancho y alto deseados para el personaje
-    private val personajeWidth = 200 // ancho deseado en píxeles
-    private val personajeHeight = 150 // alto deseado en píxeles
 
-    // Escala el bitmap del personaje al tamaño deseado
+    private val personajeWidth = 350
+    private val personajeHeight = 250
     private val personajeBitmap = Bitmap.createScaledBitmap(
         BitmapFactory.decodeResource(resources, R.drawable.snake),
         personajeWidth,
         personajeHeight,
         true
     )
+
+
+    private val banderawidth = 300
+    private val banderaheight = 300
+    private val banderaBitmap =Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.ic_flag),
+        banderawidth,
+        banderaheight,
+        true
+        )
+
     private val paint = Paint()
-    private var fadeProgress = 1f // controla la transición
+    private var fadeProgress = 1f
 
     private var personajeX = mapBitmap.width / 2f
     private var personajeY = mapBitmap.height / 2f
@@ -41,6 +50,15 @@ class CanvasMap @JvmOverloads constructor(
     private var previousY = personajeY
 
     private val mediaPlayer: MediaPlayer = MediaPlayer.create(context, R.raw.ocean_floor_156452)
+
+    // Coordenadas fijas de las banderas en el tamaño original de 1792x1024
+    private val banderaPositions = listOf(
+        Pair(949f, 270f),
+        Pair(611f, 278f),
+        Pair(303f, 589f),
+        Pair(1148f, 622f),
+        Pair(725f, 905f)
+    )
 
     init {
         mediaPlayer.isLooping = true
@@ -82,18 +100,15 @@ class CanvasMap @JvmOverloads constructor(
             else -> personajeY - viewHeight / 2
         }
 
-        // Dibuja los mapas con el efecto de transición
         paint.alpha = (255 * fadeProgress).toInt()
         canvas.drawBitmap(mapBitmap, -offsetX, -offsetY, paint)
         paint.alpha = (255 * (1 - fadeProgress)).toInt()
         canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
 
-        // Calcula el ángulo de rotación según la dirección de movimiento
         val dx = personajeX - previousX
         val dy = personajeY - previousY
         val angle = Math.toDegrees(Math.atan2(dy.toDouble(), dx.toDouble())).toFloat()
 
-        // Dibuja el personaje con rotación
         val personajeMatrix = Matrix()
         personajeMatrix.postTranslate(-personajeBitmap.width / 2f, -personajeBitmap.height / 2f)
         personajeMatrix.postRotate(angle)
@@ -103,7 +118,17 @@ class CanvasMap @JvmOverloads constructor(
         )
         canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
 
-        // Actualiza las coordenadas previas
+        // Calcula la escala según el tamaño actual del mapa
+        val scaleX = mapBitmap.width / 1792f
+        val scaleY = mapBitmap.height / 1024f
+
+        // Dibuja las banderas escaladas
+        banderaPositions.forEach { (x, y) ->
+            val banderaX = x * scaleX - offsetX
+            val banderaY = y * scaleY - offsetY
+            canvas.drawBitmap(banderaBitmap, banderaX, banderaY, null)
+        }
+
         previousX = personajeX
         previousY = personajeY
     }
