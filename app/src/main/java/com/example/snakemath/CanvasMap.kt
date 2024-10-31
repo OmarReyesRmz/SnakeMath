@@ -32,12 +32,18 @@ class CanvasMap @JvmOverloads constructor(
 
     private val banderawidth = 300
     private val banderaheight = 300
+    private val nextbanderaBitmap =Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.ic_flag_modified),
+        banderawidth,
+        banderaheight,
+        true
+        )
     private val banderaBitmap =Bitmap.createScaledBitmap(
         BitmapFactory.decodeResource(resources, R.drawable.ic_flag),
         banderawidth,
         banderaheight,
         true
-        )
+    )
 
     private val paint = Paint()
     private var fadeProgress = 1f
@@ -53,11 +59,11 @@ class CanvasMap @JvmOverloads constructor(
 
     // Coordenadas fijas de las banderas en el tamaño original de 1792x1024
     private val banderaPositions = listOf(
-        Pair(949f, 270f),
-        Pair(611f, 278f),
-        Pair(303f, 589f),
-        Pair(1148f, 622f),
-        Pair(725f, 905f)
+        Pair(940f, 240f),
+        Pair(598f, 258f),
+        Pair(323f, 500f),
+        Pair(1148f, 535f),
+        Pair(715f, 835f)
     )
 
     init {
@@ -116,7 +122,6 @@ class CanvasMap @JvmOverloads constructor(
             personajeX - offsetX,
             personajeY - offsetY
         )
-        canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
 
         // Calcula la escala según el tamaño actual del mapa
         val scaleX = mapBitmap.width / 1792f
@@ -126,8 +131,13 @@ class CanvasMap @JvmOverloads constructor(
         banderaPositions.forEach { (x, y) ->
             val banderaX = x * scaleX - offsetX
             val banderaY = y * scaleY - offsetY
-            canvas.drawBitmap(banderaBitmap, banderaX, banderaY, null)
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
+            paint.alpha = (255 * (1 - fadeProgress)).toInt()
+            canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
         }
+
+        canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
 
         previousX = personajeX
         previousY = personajeY
