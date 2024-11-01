@@ -63,7 +63,20 @@ class CanvasMap @JvmOverloads constructor(
         Pair(598f, 258f),
         Pair(323f, 500f),
         Pair(1148f, 535f),
-        Pair(715f, 835f)
+        Pair(715f, 835f),
+        Pair(280f, 260f),
+        Pair(400f, 170f),
+        Pair(410f, 670f),
+        Pair(760f,390f),
+        Pair(1460f, 510f),
+        Pair(1110f,120f),
+        Pair(1305f,410f),
+        Pair(1295f, 175f),
+        Pair(260f,820f),
+        Pair(935f,500f),
+        Pair(70f,535f),
+        Pair(1320f,655f),
+        Pair(1700f,525f)
     )
 
     init {
@@ -126,15 +139,22 @@ class CanvasMap @JvmOverloads constructor(
         // Calcula la escala según el tamaño actual del mapa
         val scaleX = mapBitmap.width / 1792f
         val scaleY = mapBitmap.height / 1024f
+        var xbandera = 0
 
         // Dibuja las banderas escaladas
         banderaPositions.forEach { (x, y) ->
             val banderaX = x * scaleX - offsetX
             val banderaY = y * scaleY - offsetY
+            xbandera++;
             paint.alpha = (255 * fadeProgress).toInt()
             canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
-            paint.alpha = (255 * (1 - fadeProgress)).toInt()
-            canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
+            if(xbandera <= 5        ){
+                paint.alpha = (255 * (1 - fadeProgress)).toInt()
+                canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
+            }else{
+                paint.alpha = (255 * (1 - fadeProgress)).toInt()
+                canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
+            }
         }
 
         canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
