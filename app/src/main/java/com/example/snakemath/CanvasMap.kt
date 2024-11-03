@@ -11,6 +11,8 @@ import android.graphics.Matrix
 import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.view.View
+import android.widget.Button
+import androidx.core.view.isVisible
 import com.example.snakemath.R
 
 class CanvasMap @JvmOverloads constructor(
@@ -29,16 +31,15 @@ class CanvasMap @JvmOverloads constructor(
         true
     )
 
-
     private val banderawidth = 300
     private val banderaheight = 300
-    private val nextbanderaBitmap =Bitmap.createScaledBitmap(
+    private val nextbanderaBitmap = Bitmap.createScaledBitmap(
         BitmapFactory.decodeResource(resources, R.drawable.ic_flag_modified),
         banderawidth,
         banderaheight,
         true
-        )
-    private val banderaBitmap =Bitmap.createScaledBitmap(
+    )
+    private val banderaBitmap = Bitmap.createScaledBitmap(
         BitmapFactory.decodeResource(resources, R.drawable.ic_flag),
         banderawidth,
         banderaheight,
@@ -56,6 +57,7 @@ class CanvasMap @JvmOverloads constructor(
     private var previousY = personajeY
 
     private val mediaPlayer: MediaPlayer = MediaPlayer.create(context, R.raw.ocean_floor_156452)
+    private var navigateButton: Button? = null // Referencia al botón
 
     // Coordenadas fijas de las banderas en el tamaño original de 1792x1024
     private val banderaPositions = listOf(
@@ -67,16 +69,16 @@ class CanvasMap @JvmOverloads constructor(
         Pair(280f, 260f),
         Pair(400f, 170f),
         Pair(410f, 670f),
-        Pair(760f,390f),
+        Pair(760f, 390f),
         Pair(1460f, 510f),
-        Pair(1110f,120f),
-        Pair(1305f,410f),
+        Pair(1110f, 120f),
+        Pair(1305f, 410f),
         Pair(1295f, 175f),
-        Pair(260f,820f),
-        Pair(935f,500f),
-        Pair(70f,535f),
-        Pair(1320f,655f),
-        Pair(1700f,525f)
+        Pair(260f, 820f),
+        Pair(935f, 500f),
+        Pair(70f, 535f),
+        Pair(1320f, 655f),
+        Pair(1700f, 525f)
     )
 
     init {
@@ -139,16 +141,14 @@ class CanvasMap @JvmOverloads constructor(
         // Calcula la escala según el tamaño actual del mapa
         val scaleX = mapBitmap.width / 1792f
         val scaleY = mapBitmap.height / 1024f
-        var xbandera = 0
 
         // Dibuja las banderas escaladas
-        banderaPositions.forEach { (x, y) ->
+        banderaPositions.forEachIndexed { index, (x, y) ->
             val banderaX = x * scaleX - offsetX
             val banderaY = y * scaleY - offsetY
-            xbandera++;
             paint.alpha = (255 * fadeProgress).toInt()
             canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
-            if(xbandera <= 5        ){
+            if(index <= 5){
                 paint.alpha = (255 * (1 - fadeProgress)).toInt()
                 canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
             }else{
@@ -157,10 +157,30 @@ class CanvasMap @JvmOverloads constructor(
             }
         }
 
+        // Dibuja el personaje
         canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
+
+        // Verificar si el personaje está cerca de una de las primeras cinco banderas
+        val isNearFlag = banderaPositions.take(5).any { (flagX, flagY) ->
+            val banderaX = flagX * scaleX
+            val banderaY = flagY * scaleY
+            val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
+            distance < 200 // Umbral de proximidad
+        }
+
+        // Mostrar u ocultar el botón de navegación según la proximidad
+        navigateButton?.isVisible = isNearFlag
 
         previousX = personajeX
         previousY = personajeY
+    }
+
+    fun setNavigateButton(button: Button) {
+        navigateButton = button
+        navigateButton?.setOnClickListener {
+            // Acción para navegar a la pantalla del juego
+            // Aquí puedes implementar la navegación, como un intent para ir a la actividad del juego
+        }
     }
 
     fun actualizarPosicion(x: Float, y: Float) {

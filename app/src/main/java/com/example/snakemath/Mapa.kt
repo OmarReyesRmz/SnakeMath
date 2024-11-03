@@ -1,18 +1,15 @@
 package com.example.snakemath
 
-import android.graphics.Color
-import android.graphics.drawable.AnimationDrawable
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
+import androidx.core.view.isVisible
 class Mapa : AppCompatActivity() {
 
     private lateinit var canvasMap: CanvasMap
     private lateinit var joystick: Joystick
+    private lateinit var navigateButton: Button
     private val velocidad = 0.05f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,12 +19,18 @@ class Mapa : AppCompatActivity() {
         canvasMap = findViewById(R.id.map_view)
         joystick = findViewById(R.id.joystick_view)
 
-        ViewCompat.setOnApplyWindowInsetsListener(canvasMap) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        navigateButton = findViewById(R.id.start_game_button)
+        navigateButton.isVisible = false // Inicialmente oculto
+
+        // Asigna el botón de navegación a CanvasMap
+        canvasMap.setNavigateButton(navigateButton)
+
+        navigateButton.setOnClickListener {
+            val intent = Intent(this, Intro::class.java)
+            startActivity(intent)
         }
 
+        // Resto del código para joystick y otros elementos
         joystick.setOnJoystickMoveListener { dx, dy ->
             moverPersonaje(dx * velocidad, dy * velocidad)
         }
