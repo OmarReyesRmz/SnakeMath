@@ -148,7 +148,7 @@ class CanvasMap @JvmOverloads constructor(
             val banderaY = y * scaleY - offsetY
             paint.alpha = (255 * fadeProgress).toInt()
             canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
-            if(index <= 5){
+            if(index < 5){
                 paint.alpha = (255 * (1 - fadeProgress)).toInt()
                 canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
             }else{
@@ -162,10 +162,10 @@ class CanvasMap @JvmOverloads constructor(
 
         // Verificar si el personaje está cerca de una de las primeras cinco banderas
         val isNearFlag = banderaPositions.take(5).any { (flagX, flagY) ->
-            val banderaX = flagX * scaleX
-            val banderaY = flagY * scaleY
+            val banderaX = (flagX * scaleX) + 50
+            val banderaY = (flagY * scaleY) + 100
             val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
-            distance < 200 // Umbral de proximidad
+            distance < 150 // Umbral de proximidad
         }
 
         // Mostrar u ocultar el botón de navegación según la proximidad

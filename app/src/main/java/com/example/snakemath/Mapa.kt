@@ -26,7 +26,7 @@ class Mapa : AppCompatActivity() {
         canvasMap.setNavigateButton(navigateButton)
 
         navigateButton.setOnClickListener {
-            val intent = Intent(this, Intro::class.java)
+            val intent = Intent(this, Level::class.java)
             startActivity(intent)
         }
 
