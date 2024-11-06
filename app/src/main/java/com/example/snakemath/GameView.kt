@@ -1,9 +1,7 @@
 package com.example.snakemath
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -16,9 +14,9 @@ class GameView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint()
-    private val gridSize = 100f // Tamaño de cada celda ajustado a 100 píxeles
-    private var bolitaX = gridSize // Posición inicial X de la bola
-    private var bolitaY = gridSize // Posición inicial Y de la bola
+    private val gridSize = 100f
+    private var bolitaX = gridSize
+    private var bolitaY = gridSize
     val maxWidth = 350 * resources.displayMetrics.density
     val maxHeight = 600 * resources.displayMetrics.density
     private var currentDirection = Direction.RIGHT
@@ -28,41 +26,66 @@ class GameView @JvmOverloads constructor(
     private var comidaX = 0f
     private var comidaY = 0f
     private val snakeBody = mutableListOf<Pair<Float, Float>>()
-
+    private val snakeDirections = mutableListOf<Direction>()
+    private var headBitmap: Bitmap
+    private var bodyBitmap: Bitmap
 
     private enum class Direction { UP, DOWN, LEFT, RIGHT }
+    private val headwidth = 95
+    private val headheight = 110
 
     init {
         gestureDetector = GestureDetectorCompat(context, GestureListener())
-        generateRandomComida() // Generar la primera posición de la comida
+        generateRandomComida()
         startMovement()
+
+        headBitmap = Bitmap.createScaledBitmap(
+            BitmapFactory.decodeResource(resources, R.drawable.chompa),
+            headwidth,
+            headheight,
+            true)
+
+        bodyBitmap = Bitmap.createScaledBitmap(
+            BitmapFactory.decodeResource(resources, R.drawable.body2),
+            headwidth, headheight, true)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        // Dibujar el fondo
         drawGrid(canvas)
 
-        paint.color = Color.GREEN
-        for (segment in snakeBody) {
-            canvas.drawCircle(segment.first + gridSize / 2, segment.second + gridSize / 2, (gridSize / 2) - 10, paint)
+        for ((index, segment) in snakeBody.withIndex()) {
+            val bodyMatrix = Matrix()
+
+            val rotationAngle = when (snakeDirections.getOrNull(index) ?: currentDirection) {
+                Direction.RIGHT -> 0f
+                Direction.DOWN -> 90f
+                Direction.LEFT -> 180f
+                Direction.UP -> 270f
+            }
+
+            bodyMatrix.postRotate(rotationAngle, bodyBitmap.width / 2f, bodyBitmap.height / 2f)
+            bodyMatrix.postTranslate(segment.first, segment.second)
+            canvas.drawBitmap(bodyBitmap, bodyMatrix, null)
         }
 
-        // Dibujar la bola
-        paint.color = Color.RED
-        canvas.drawCircle(bolitaX + gridSize / 2, bolitaY + gridSize / 2, (gridSize / 2) - 10, paint)
+        val headMatrix = Matrix()
+        val headRotationAngle = when (currentDirection) {
+            Direction.RIGHT -> 0f
+            Direction.DOWN -> 90f
+            Direction.LEFT -> 180f
+            Direction.UP -> 270f
+        }
+        headMatrix.postRotate(headRotationAngle, headBitmap.width / 2f, headBitmap.height / 2f)
+        headMatrix.postTranslate(bolitaX, bolitaY)
+        canvas.drawBitmap(headBitmap, headMatrix, null)
 
-
-
-        // Dibujar la comida
         paint.color = Color.BLACK
         canvas.drawCircle(comidaX + gridSize / 2, comidaY + gridSize / 2, (gridSize / 2) - 10, paint)
-
     }
 
     private fun drawGrid(canvas: Canvas) {
-        paint.color = Color.parseColor("#AADD55") // Color del fondo
+        paint.color = Color.parseColor("#AADD55")
         val cols = width / gridSize
         val rows = (height / gridSize) + 1
         for (i in 0 until cols.toInt()) {
@@ -84,15 +107,15 @@ class GameView @JvmOverloads constructor(
             override fun run() {
                 moveBolita()
                 checkCollisionWithComida()
-                invalidate() // Redibujar la vista
+                invalidate()
                 postDelayed(this, 150)
             }
         }, 150)
     }
 
     private fun moveBolita() {
-
         val previousPosition = Pair(bolitaX, bolitaY)
+        val previousDirection = currentDirection
 
         when (currentDirection) {
             Direction.RIGHT -> if (bolitaX + step + gridSize / 2 < width) bolitaX += step
@@ -101,15 +124,15 @@ class GameView @JvmOverloads constructor(
             Direction.DOWN -> if (bolitaY + step + gridSize / 2 < height) bolitaY += step
         }
 
-        // Mover cada segmento de la cola
         if (snakeBody.isNotEmpty()) {
             for (i in snakeBody.size - 1 downTo 1) {
                 snakeBody[i] = snakeBody[i - 1]
+                snakeDirections[i] = snakeDirections[i - 1]
             }
             snakeBody[0] = previousPosition
+            snakeDirections[0] = previousDirection
         }
 
-        // Detectar colisiones con los bordes
         if (bolitaX < 0) bolitaX = 0f
         if (bolitaX + gridSize > width) bolitaX = width - gridSize
         if (bolitaY < 0) bolitaY = 0f
@@ -117,8 +140,9 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun checkCollisionWithComida() {
-        if (bolitaX == comidaX && bolitaY ==     comidaY) {
+        if (bolitaX == comidaX && bolitaY == comidaY) {
             snakeBody.add(Pair(bolitaX, bolitaY))
+            snakeDirections.add(currentDirection)
             generateRandomComida()
         }
     }
@@ -129,7 +153,6 @@ class GameView @JvmOverloads constructor(
             comidaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
         } while (snakeBody.any { it.first == comidaX && it.second == comidaY })
     }
-
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
         private val SWIPE_THRESHOLD = 100
