@@ -40,7 +40,15 @@ class GameView @JvmOverloads constructor(
 
     init {
         gestureDetector = GestureDetectorCompat(context, GestureListener())
+        bolitaX += gridSize * 3 // Mover la cabeza hacia la derecha
         generateRandomComida()
+
+        // Inicializar el cuerpo de la serpiente con tamaño 3
+        for (i in 2 downTo 0) {
+            snakeBody.add(Pair(bolitaX - gridSize * (3 - i), bolitaY))
+            snakeDirections.add(Direction.RIGHT)
+        }
+
         startMovement()
 
         headBitmap = Bitmap.createScaledBitmap(
@@ -53,6 +61,7 @@ class GameView @JvmOverloads constructor(
             BitmapFactory.decodeResource(resources, R.drawable.body2),
             headwidth, headheight, true)
     }
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
