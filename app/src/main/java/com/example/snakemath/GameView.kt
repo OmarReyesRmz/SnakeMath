@@ -3,6 +3,7 @@ package com.example.snakemath
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -12,7 +13,7 @@ import kotlin.random.Random
 
 class GameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr,) {
 
     private val paint = Paint()
     private val gridSize = 100f
@@ -30,18 +31,49 @@ class GameView @JvmOverloads constructor(
     private val snakeDirections = mutableListOf<Direction>()
     private var headBitmap: Bitmap
     private var bodyBitmap: Bitmap
+    private var comidaActual: Manzanas? = null
 
     private enum class Direction { UP, DOWN, LEFT, RIGHT }
     private val headwidth = 95
     private val headheight = 110
+    private val bodywidth = 100
+    private val bodyheight = 100
 
     private var score = 0
     private var scoreTextView: TextView? = null
+    var manzanasEnElMapa: MutableList<Manzanas> = mutableListOf()  // Inicialización de manzanasEnElMapa
+
+    private val manzanas = arrayOf(
+        Manzanas(R.drawable.apple1, "numero", 1),
+        Manzanas(R.drawable.apple2, "numero", 2),
+        Manzanas(R.drawable.apple3, "numero", 3),
+        Manzanas(R.drawable.apple4, "numero", 4),
+        Manzanas(R.drawable.apple5, "numero", 5),
+        Manzanas(R.drawable.apple6, "numero", 6),
+        Manzanas(R.drawable.apple7, "numero", 7),
+        Manzanas(R.drawable.apple8, "numero", 8),
+        Manzanas(R.drawable.apple9, "numero", 9),
+        Manzanas(R.drawable.apple10, "numero", 10),
+        Manzanas(R.drawable.apple11, "numero", 11),
+        Manzanas(R.drawable.apple12, "numero", 12),
+        Manzanas(R.drawable.apple13, "numero", 13),
+        Manzanas(R.drawable.apple14, "numero", 14),
+        Manzanas(R.drawable.apple15, "numero", 15),
+        Manzanas(R.drawable.apple16, "numero", 16),
+        Manzanas(R.drawable.apple17, "numero", 17),
+        Manzanas(R.drawable.apple18, "numero", 18),
+        Manzanas(R.drawable.apple19, "numero", 19),
+        Manzanas(R.drawable.apple20, "numero", 20),
+        Manzanas(R.drawable.applesum, "operacion", 9996),
+        Manzanas(R.drawable.applediv, "operacion", 9997),
+        Manzanas(R.drawable.applemult, "operacion", 9998),
+        Manzanas(R.drawable.appleres, "operacion", 9999)
+    )
 
     init {
         gestureDetector = GestureDetectorCompat(context, GestureListener())
         bolitaX += gridSize * 3 // Mover la cabeza hacia la derecha
-        generateRandomComida()
+        generateRandomManzana()
 
         // Inicializar el cuerpo de la serpiente con tamaño 3
         for (i in 2 downTo 0) {
@@ -59,8 +91,80 @@ class GameView @JvmOverloads constructor(
 
         bodyBitmap = Bitmap.createScaledBitmap(
             BitmapFactory.decodeResource(resources, R.drawable.body2),
-            headwidth, headheight, true)
+            bodywidth, bodyheight, true)
     }
+
+
+    private fun generateRandomManzana() {
+        for (i in 1..5) {  // Ciclo que se ejecutará 5 veces
+            var manzanaX: Float = 0f
+            var manzanaY: Float = 0f
+
+            do {
+                // Asegúrate de que maxWidth y maxHeight sean valores enteros
+                manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
+                manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
+                Log.d("GameView", "Intentando generar manzana en ($manzanaX, $manzanaY)")
+            } while (snakeBody.any { it.first == manzanaX && it.second == manzanaY } || manzanasEnElMapa.any { it.x == manzanaX && it.y == manzanaY })
+
+            // Seleccionamos una manzana aleatoria de las disponibles
+            var manzanaAleatoria = manzanas.toList().random()
+            while (manzanaAleatoria.tipo != "numero") {
+                // Si el tipo no es "numero", se selecciona una nueva manzana aleatoria
+                manzanaAleatoria = manzanas.toList().random()
+            }
+
+            val nuevaManzana = Manzanas(
+                imagen = manzanaAleatoria.imagen,
+                tipo = manzanaAleatoria.tipo,
+                numero = manzanaAleatoria.numero,
+                x = manzanaX,
+                y = manzanaY
+            )
+
+            // Añadimos la nueva manzana al vector de manzanas en el mapa
+            manzanasEnElMapa.add(nuevaManzana)
+            Log.d("GameView", "Manzana generada en ($manzanaX, $manzanaY)")
+        }
+        invalidate()  // Llamamos a invalidate después de generar las 5 manzanas
+    }
+
+
+    private fun generateOperation(){
+        for (i in 1..5) {  // Ciclo que se ejecutará 5 veces
+            var manzanaX: Float = 0f
+            var manzanaY: Float = 0f
+
+            do {
+                // Asegúrate de que maxWidth y maxHeight sean valores enteros
+                manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
+                manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
+                Log.d("GameView", "Intentando generar manzana en ($manzanaX, $manzanaY)")
+            } while (snakeBody.any { it.first == manzanaX && it.second == manzanaY } || manzanasEnElMapa.any { it.x == manzanaX && it.y == manzanaY })
+
+            // Seleccionamos una manzana aleatoria de las disponibles
+            var manzanaAleatoria = manzanas.toList().random()
+            while (manzanaAleatoria.numero != 9996) {
+                // Si el tipo no es "numero", se selecciona una nueva manzana aleatoria
+                manzanaAleatoria = manzanas.toList().random()
+            }
+
+            val nuevaManzana = Manzanas(
+                imagen = manzanaAleatoria.imagen,
+                tipo = manzanaAleatoria.tipo,
+                numero = manzanaAleatoria.numero,
+                x = manzanaX,
+                y = manzanaY
+            )
+
+            // Añadimos la nueva manzana al vector de manzanas en el mapa
+            manzanasEnElMapa.add(nuevaManzana)
+            Log.d("GameView", "Manzana generada en ($manzanaX, $manzanaY)")
+        }
+        invalidate()
+    }
+
+
 
 
     override fun onDraw(canvas: Canvas) {
@@ -93,8 +197,17 @@ class GameView @JvmOverloads constructor(
         headMatrix.postTranslate(bolitaX, bolitaY)
         canvas.drawBitmap(headBitmap, headMatrix, null)
 
-        paint.color = Color.BLACK
-        canvas.drawCircle(comidaX + gridSize / 2, comidaY + gridSize / 2, (gridSize / 2) - 10, paint)
+        val tamanoCubo = 100
+
+        for (manzana in manzanasEnElMapa) {
+            val manzanaBitmap = BitmapFactory.decodeResource(resources, manzana.imagen)
+            val scaledManzanaBitmap = Bitmap.createScaledBitmap(manzanaBitmap, tamanoCubo, tamanoCubo, true)
+            canvas.drawBitmap(scaledManzanaBitmap, manzana.x, manzana.y, null)
+        }
+
+
+        //paint.color = Color.BLACK
+        //canvas.drawCircle(comidaX + gridSize / 2, comidaY + gridSize / 2, (gridSize / 2) - 10, paint)
     }
 
     private fun drawGrid(canvas: Canvas) {
@@ -111,11 +224,20 @@ class GameView @JvmOverloads constructor(
         }
     }
 
+    private var isGameStarted = false // Nueva bandera para controlar el inicio del juego
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return gestureDetector.onTouchEvent(event)
+        if (!isGameStarted) {
+            // Iniciar el juego con el primer deslizamiento
+            isGameStarted = true
+            startMovement() // Inicia el movimiento
+        }
+        gestureDetector.onTouchEvent(event)
+        return true
     }
 
     private fun startMovement() {
+        if (!isGameStarted) return
         postDelayed(object : Runnable {
             override fun run() {
                 moveBolita()
@@ -153,21 +275,22 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun checkCollisionWithComida() {
-        if (bolitaX == comidaX && bolitaY == comidaY) {
-            score += 1
-            scoreTextView?.text = "Score: $score"
-            snakeBody.add(Pair(bolitaX, bolitaY))
-            snakeDirections.add(currentDirection)
-            generateRandomComida()
+        for (manzana in manzanasEnElMapa) {
+            if (bolitaX == manzana.x && bolitaY == manzana.y) {
+                snakeDirections.add(currentDirection)
+                if (manzana.tipo == "operacion"){
+                    manzanasEnElMapa.clear()
+                    generateRandomManzana()
+                }else{
+                    score ++
+                    scoreTextView?.text = "Score: $score"
+                    snakeBody.add(Pair(bolitaX, bolitaY))
+                    manzanasEnElMapa.clear()
+                    generateOperation()
+                }
+                break
+            }
         }
-    }
-
-
-    private fun generateRandomComida() {
-        do {
-            comidaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
-            comidaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
-        } while (snakeBody.any { it.first == comidaX && it.second == comidaY })
     }
 
     fun setScoreTextView(textView: TextView) {

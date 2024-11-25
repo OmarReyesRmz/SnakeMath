@@ -10,9 +10,11 @@ class Level : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_level)
 
+        // Inicializamos las vistas
         val scoreTextView = findViewById<TextView>(R.id.scoreText)
         val gameView = findViewById<GameView>(R.id.gameView)
 
+        // Configuramos el puntaje
         gameView.setScoreTextView(scoreTextView)
     }
 }
