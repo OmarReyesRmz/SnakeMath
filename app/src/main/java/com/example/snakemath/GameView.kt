@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import androidx.core.view.GestureDetectorCompat
 import kotlin.random.Random
 
@@ -33,6 +34,9 @@ class GameView @JvmOverloads constructor(
     private enum class Direction { UP, DOWN, LEFT, RIGHT }
     private val headwidth = 95
     private val headheight = 110
+
+    private var score = 0
+    private var scoreTextView: TextView? = null
 
     init {
         gestureDetector = GestureDetectorCompat(context, GestureListener())
@@ -141,11 +145,14 @@ class GameView @JvmOverloads constructor(
 
     private fun checkCollisionWithComida() {
         if (bolitaX == comidaX && bolitaY == comidaY) {
+            score += 1
+            scoreTextView?.text = "Score: $score"
             snakeBody.add(Pair(bolitaX, bolitaY))
             snakeDirections.add(currentDirection)
             generateRandomComida()
         }
     }
+
 
     private fun generateRandomComida() {
         do {
@@ -153,6 +160,11 @@ class GameView @JvmOverloads constructor(
             comidaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
         } while (snakeBody.any { it.first == comidaX && it.second == comidaY })
     }
+
+    fun setScoreTextView(textView: TextView) {
+        scoreTextView = textView
+    }
+
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
         private val SWIPE_THRESHOLD = 100
