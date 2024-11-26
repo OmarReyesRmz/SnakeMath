@@ -23,6 +23,9 @@ class CanvasMap @JvmOverloads constructor(
     private var db: DBsqlite = DBsqlite(context)
     private var mapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_modified)
     private val nextMapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_suma)
+    private val mundo2MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_resta)
+    private val mundo3MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_multiplicacion)
+    private val mundo4MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_division)
 
     private val personajeWidth = 350
     private val personajeHeight = 250
@@ -69,29 +72,41 @@ class CanvasMap @JvmOverloads constructor(
         Pair(323f, 500f),
         Pair(1148f, 535f),
         Pair(715f, 835f),
-        //niveles ..
+        //niveles mundo 2
+        Pair(70f, 535f),
+        Pair(1320f, 655f),
+        Pair(260f, 820f),
+        //niveles mundo 3
         Pair(280f, 260f),
         Pair(400f, 170f),
         Pair(410f, 670f),
         Pair(760f, 390f),
         Pair(1460f, 510f),
+        Pair(935f, 500f),
+        //niveles mundo 4
         Pair(1110f, 120f),
         Pair(1305f, 410f),
         Pair(1295f, 175f),
-        Pair(260f, 820f),
-        Pair(935f, 500f),
-        Pair(70f, 535f),
-        Pair(1320f, 655f),
         Pair(1700f, 525f)
     )
 
     init {
         mediaPlayer.isLooping = true
         mediaPlayer.start()
-        Log.d("CanvasMpa","Nivel disponibles: ${db.obtenerNivel()}")
-        Log.d("CanvasMpa","Primera vez: ${db.obtenerPrimeraVez()}")
         if(db.obtenerPrimeraVez() == 0) {
             iniciarTransicion()
+        }else{
+            if(db.obtenerMundo() == 2 && db.obtenerPrimeraVez() == 2){
+                iniciarTransicion()
+            }else{
+                if(db.obtenerMundo() == 3 && db.obtenerPrimeraVez() == 4){
+                    iniciarTransicion()
+                }else{
+                    if(db.obtenerMundo() == 4 && db.obtenerPrimeraVez() == 6){
+                        iniciarTransicion()
+                    }
+                }
+            }
         }
     }
 
@@ -128,15 +143,46 @@ class CanvasMap @JvmOverloads constructor(
             personajeY > mapBitmap.height - viewHeight / 2 -> (mapBitmap.height - viewHeight).toFloat()
             else -> personajeY - viewHeight / 2
         }
-
-        if(db.obtenerPrimeraVez() == 0) {
+        //Mundo1
+        if(db.obtenerPrimeraVez() == 0 && db.obtenerMundo() == 1) {
             paint.alpha = (255 * fadeProgress).toInt()
             canvas.drawBitmap(mapBitmap, -offsetX, -offsetY, paint)
             paint.alpha = (255 * (1 - fadeProgress)).toInt()
             canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
-        }else if (db.obtenerPrimeraVez() == 1){
+        }
+        else if (db.obtenerPrimeraVez() == 1 && db.obtenerMundo() == 1){
             paint.alpha = (255 * fadeProgress).toInt()
             canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
+        }
+        //Mundo2
+        if(db.obtenerMundo() == 2 && db.obtenerPrimeraVez() == 2){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
+            paint.alpha = (255 * (1 - fadeProgress)).toInt()
+            canvas.drawBitmap(mundo2MapBitmap, -offsetX, -offsetY, paint)
+        }else if(db.obtenerMundo() == 2 && db.obtenerPrimeraVez() == 3){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(mundo2MapBitmap, -offsetX, -offsetY, paint)
+        }
+        //Mundo3
+        if(db.obtenerMundo() == 3 && db.obtenerPrimeraVez() == 4){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(mundo2MapBitmap, -offsetX, -offsetY, paint)
+            paint.alpha = (255 * (1 - fadeProgress)).toInt()
+            canvas.drawBitmap(mundo3MapBitmap, -offsetX, -offsetY, paint)
+        }else if(db.obtenerMundo() == 3 && db.obtenerPrimeraVez() == 5){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(mundo3MapBitmap, -offsetX, -offsetY, paint)
+        }
+        //Mundo4
+        if(db.obtenerMundo() == 4 && db.obtenerPrimeraVez() == 6){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(mundo3MapBitmap, -offsetX, -offsetY, paint)
+            paint.alpha = (255 * (1 - fadeProgress)).toInt()
+            canvas.drawBitmap(mundo4MapBitmap, -offsetX, -offsetY, paint)
+        }else if(db.obtenerMundo() == 4 && db.obtenerPrimeraVez() == 7){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(mundo4MapBitmap, -offsetX, -offsetY, paint)
         }
 
         val dx = personajeX - previousX
@@ -159,7 +205,7 @@ class CanvasMap @JvmOverloads constructor(
         banderaPositions.forEachIndexed { index, (x, y) ->
             val banderaX = x * scaleX - offsetX
             val banderaY = y * scaleY - offsetY
-            if(db.obtenerPrimeraVez() == 0) {
+            if(db.obtenerPrimeraVez() == 0 || db.obtenerPrimeraVez() == 2 || db.obtenerPrimeraVez() == 4 || db.obtenerPrimeraVez() == 6) {
                 paint.alpha = (255 * fadeProgress).toInt()
                 canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
                 if (index < db.obtenerNivel()) {
@@ -169,7 +215,7 @@ class CanvasMap @JvmOverloads constructor(
                     paint.alpha = (255 * (1 - fadeProgress)).toInt()
                     canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
                 }
-            }else if(db.obtenerPrimeraVez() == 1){
+            }else if(db.obtenerPrimeraVez() == 1 || db.obtenerPrimeraVez() == 3 || db.obtenerPrimeraVez() == 5 || db.obtenerPrimeraVez() == 7){
                 if (index < db.obtenerNivel()) {
                     paint.alpha = (255 * fadeProgress).toInt()
                     canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
@@ -191,6 +237,16 @@ class CanvasMap @JvmOverloads constructor(
             distance < 150 // Umbral de proximidad
         }
 
+        val banderaCercana = banderaPositions.take(db.obtenerNivel()).indexOfFirst { (flagX, flagY) ->
+            val banderaX = (flagX * scaleX) + 50
+            val banderaY = (flagY * scaleY) + 100
+            val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
+            distance < 150 // Umbral de proximidad
+        }
+        Log.d("CanvasMap","Nivel jugando ............................... $banderaCercana")
+
+        db.actualizarNivelJugando(banderaCercana + 1)
+
         // Mostrar u ocultar el botón de navegación según la proximidad
         navigateButton?.isVisible = isNearFlag
 
@@ -201,14 +257,7 @@ class CanvasMap @JvmOverloads constructor(
     fun setNavigateButton(button: Button) {
         navigateButton = button
         navigateButton?.setOnClickListener {
-//            val banderaCercana = banderaPositions.take(db.obtenerNivel()).indexOfFirst { (flagX, flagY) ->
-//                val banderaX = (flagX * scaleX) + 50
-//                val banderaY = (flagY * scaleY) + 100
-//                val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
-//                distance < 150 // Umbral de proximidad
-//            }
-//            Log.d("CanvasMap","Nivel jugando ............................... $banderaCercana")
-//            db.actualizarNivelJugando(banderaCercana)
+
         }
     }
 
