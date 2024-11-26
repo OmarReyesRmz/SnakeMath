@@ -15,8 +15,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        var db: DBsqlite = DBsqlite(this)
+        if(!db.datosExistentes()){
+            db.guardarDatos(1,0,1,0,0f,"clasica")
+        }else{
+            db.guardarDatos(1,0,1,0,0f,"clasica")
+        }
+
         val intent = Intent(this, Intro::class.java)
         startActivity(intent)
         finish()
+
+
     }
 }

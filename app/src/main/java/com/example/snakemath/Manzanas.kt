@@ -28,4 +28,13 @@ class Manzanas {
         this.y = y
     }
 
+    constructor(imagen: Int,tipo: String,numero: Int,x: Float,y: Float,bandera1: Boolean){
+        this.imagen = imagen
+        this.tipo = tipo
+        this.numero = numero
+        this.x = x
+        this.y = y
+        this.bandera1 = bandera1
+    }
+
 }

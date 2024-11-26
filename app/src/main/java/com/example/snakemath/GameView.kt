@@ -38,6 +38,7 @@ class GameView @JvmOverloads constructor(
     private val headheight = 110
     private val bodywidth = 100
     private val bodyheight = 100
+    private var operaciones_resueltas = 0
 
     private var score = 0
     private var scoreTextView: TextView? = null
@@ -87,7 +88,7 @@ class GameView @JvmOverloads constructor(
         Manzanas(R.drawable.apple20, "numero", 20)
     )
 
-    private var onOperacionGeneradaListener: ((String) -> Unit)? = null
+    private var onOperacionGeneradaListener: ((String, Int) -> Unit)? = null
 
     init {
         gestureDetector = GestureDetectorCompat(context, GestureListener())
@@ -300,7 +301,7 @@ class GameView @JvmOverloads constructor(
         if (bolitaY + gridSize > height) bolitaY = height - gridSize
     }
 
-    fun setOnOperacionGeneradaListener(listener: (String) -> Unit) {
+    fun setOnOperacionGeneradaListener(listener: (String, Int) -> Unit) {
         onOperacionGeneradaListener = listener
     }
 
@@ -327,12 +328,61 @@ class GameView @JvmOverloads constructor(
                 if (operacionarray.size == 3) {
 
                     val operacionString = construirOperacion()
-                    onOperacionGeneradaListener?.invoke(operacionString)
+                    onOperacionGeneradaListener?.invoke(operacionString,operaciones_resueltas)
                     //operacionTextView.text = operacionString
 
                     // Opcional: Limpiar operacionarray después de mostrar la operación
                     // operacionarray.clear()
                 }
+                break
+            }
+        }
+        for (manzana in manzanasEnElMapa2) {
+            if (bolitaX == manzana.x && bolitaY == manzana.y) {
+                snakeDirections.add(currentDirection)
+                if (manzana.bandera1){
+                    score ++
+                    operaciones_resueltas ++
+                    manzana.bandera1 = false
+                    scoreTextView?.text = "Score: $score"
+                    snakeBody.add(Pair(bolitaX, bolitaY))
+                    manzanasEnElMapa2.clear()
+                    operacionarray.clear()
+                    onOperacionGeneradaListener?.invoke("",operaciones_resueltas)
+                    generateRandomManzana()
+                }else if(!manzana.bandera1){
+                    score -= 5
+                    operaciones_resueltas ++
+                    manzana.bandera1 = false
+                    snakeBody.removeAt(snakeBody.size - 1)
+                    snakeBody.removeAt(snakeBody.size - 1)
+                    scoreTextView?.text = "Score: $score"
+                    manzanasEnElMapa2.clear()
+                    operacionarray.clear()
+                    onOperacionGeneradaListener?.invoke("",operaciones_resueltas)
+                    generateRandomManzana()
+                }
+//                else if(manzana.tipo == "numero" && operacionarray.size != 3){
+//                    score ++
+//                    scoreTextView?.text = "Score: $score"
+//                    snakeBody.add(Pair(bolitaX, bolitaY))
+//                    operacionarray.add(manzana)
+//                    manzanasEnElMapa.clear()
+//                    if(operacionarray.size != 3) {
+//                        generateOperation()
+//                    }
+//                }
+
+                // Verificar si ya se tienen 3 elementos en `operacionarray`
+//                if (operacionarray.size == 3) {
+//
+//                    val operacionString = construirOperacion()
+//                    onOperacionGeneradaListener?.invoke(operacionString,operaciones_resueltas)
+//                    //operacionTextView.text = operacionString
+//
+//                    // Opcional: Limpiar operacionarray después de mostrar la operación
+//                    // operacionarray.clear()
+//                }
                 break
             }
         }
@@ -368,13 +418,16 @@ class GameView @JvmOverloads constructor(
             }
         }
         var random =(0..2).random()
+        var banderapass = false
         var manzanaAleatoria = manzanas2.find { it.numero == total }
         for(i in 0..2){
             if(i == random){
                 manzanaAleatoria = manzanas2.find { it.numero == total }
+                banderapass = true
             }else{
                 val manzanasSinTotal = manzanas2.filter { it.numero != total }
                 manzanaAleatoria = manzanasSinTotal.random()
+                banderapass = false
             }
 
             if (manzanaAleatoria == null) {
@@ -385,7 +438,8 @@ class GameView @JvmOverloads constructor(
                 tipo = manzanaAleatoria.tipo,
                 numero = manzanaAleatoria.numero,
                 x = coordx + (i*200),
-                y = coordy
+                y = coordy,
+                bandera1 = banderapass
             )
 
             manzanasEnElMapa2.add(nuevaManzana)
