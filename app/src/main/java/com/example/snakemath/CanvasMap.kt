@@ -99,7 +99,8 @@ class CanvasMap @JvmOverloads constructor(
         val animator = ObjectAnimator.ofFloat(this, "fadeProgress", 1f, 0f)
         animator.duration = 4000
         val animatorSet = AnimatorSet()
-        animatorSet.play(animator        animatorSet.start()
+        animatorSet.play(animator)
+        animatorSet.start()
     }
 
     fun setFadeProgress(progress: Float) {
