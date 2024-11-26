@@ -52,7 +52,21 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/vidafull" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/Operacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:textColor="#4271DD"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/gameView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.example.snakemath.GameView
         android:id="@+id/gameView"

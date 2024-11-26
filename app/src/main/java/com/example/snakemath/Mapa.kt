@@ -16,6 +16,8 @@ class Mapa : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
+        var db: DBsqlite = DBsqlite(this)
+
         canvasMap = findViewById(R.id.map_view)
         joystick = findViewById(R.id.joystick_view)
 

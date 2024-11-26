@@ -10,6 +10,7 @@ import android.graphics.Paint
 import android.graphics.Matrix
 import android.media.MediaPlayer
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.core.view.isVisible
@@ -19,6 +20,7 @@ class CanvasMap @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    private var db: DBsqlite = DBsqlite(context)
     private var mapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_modified)
     private val nextMapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_suma)
 
@@ -61,11 +63,13 @@ class CanvasMap @JvmOverloads constructor(
 
     // Coordenadas fijas de las banderas en el tamaño original de 1792x1024
     private val banderaPositions = listOf(
+        //5 niveles suma
         Pair(940f, 240f),
         Pair(598f, 258f),
         Pair(323f, 500f),
         Pair(1148f, 535f),
         Pair(715f, 835f),
+        //niveles ..
         Pair(280f, 260f),
         Pair(400f, 170f),
         Pair(410f, 670f),
@@ -84,7 +88,11 @@ class CanvasMap @JvmOverloads constructor(
     init {
         mediaPlayer.isLooping = true
         mediaPlayer.start()
-        iniciarTransicion()
+        Log.d("CanvasMpa","Nivel disponibles: ${db.obtenerNivel()}")
+        Log.d("CanvasMpa","Primera vez: ${db.obtenerPrimeraVez()}")
+        if(db.obtenerPrimeraVez() == 0) {
+            iniciarTransicion()
+        }
     }
 
     private fun iniciarTransicion() {
@@ -121,10 +129,15 @@ class CanvasMap @JvmOverloads constructor(
             else -> personajeY - viewHeight / 2
         }
 
-        paint.alpha = (255 * fadeProgress).toInt()
-        canvas.drawBitmap(mapBitmap, -offsetX, -offsetY, paint)
-        paint.alpha = (255 * (1 - fadeProgress)).toInt()
-        canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
+        if(db.obtenerPrimeraVez() == 0) {
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(mapBitmap, -offsetX, -offsetY, paint)
+            paint.alpha = (255 * (1 - fadeProgress)).toInt()
+            canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
+        }else if (db.obtenerPrimeraVez() == 1){
+            paint.alpha = (255 * fadeProgress).toInt()
+            canvas.drawBitmap(nextMapBitmap, -offsetX, -offsetY, paint)
+        }
 
         val dx = personajeX - previousX
         val dy = personajeY - previousY
@@ -146,14 +159,24 @@ class CanvasMap @JvmOverloads constructor(
         banderaPositions.forEachIndexed { index, (x, y) ->
             val banderaX = x * scaleX - offsetX
             val banderaY = y * scaleY - offsetY
-            paint.alpha = (255 * fadeProgress).toInt()
-            canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
-            if(index < 5){
-                paint.alpha = (255 * (1 - fadeProgress)).toInt()
-                canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
-            }else{
-                paint.alpha = (255 * (1 - fadeProgress)).toInt()
+            if(db.obtenerPrimeraVez() == 0) {
+                paint.alpha = (255 * fadeProgress).toInt()
                 canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
+                if (index < db.obtenerNivel()) {
+                    paint.alpha = (255 * (1 - fadeProgress)).toInt()
+                    canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
+                } else {
+                    paint.alpha = (255 * (1 - fadeProgress)).toInt()
+                    canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
+                }
+            }else if(db.obtenerPrimeraVez() == 1){
+                if (index < db.obtenerNivel()) {
+                    paint.alpha = (255 * fadeProgress).toInt()
+                    canvas.drawBitmap(banderaBitmap, banderaX, banderaY, paint)
+                } else {
+                    paint.alpha = (255 * fadeProgress).toInt()
+                    canvas.drawBitmap(nextbanderaBitmap, banderaX, banderaY, paint)
+                }
             }
         }
 
@@ -161,7 +184,7 @@ class CanvasMap @JvmOverloads constructor(
         canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
 
         // Verificar si el personaje está cerca de una de las primeras cinco banderas
-        val isNearFlag = banderaPositions.take(5).any { (flagX, flagY) ->
+        val isNearFlag = banderaPositions.take(db.obtenerNivel()).any { (flagX, flagY) ->
             val banderaX = (flagX * scaleX) + 50
             val banderaY = (flagY * scaleY) + 100
             val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
@@ -178,8 +201,14 @@ class CanvasMap @JvmOverloads constructor(
     fun setNavigateButton(button: Button) {
         navigateButton = button
         navigateButton?.setOnClickListener {
-            // Acción para navegar a la pantalla del juego
-            // Aquí puedes implementar la navegación, como un intent para ir a la actividad del juego
+//            val banderaCercana = banderaPositions.take(db.obtenerNivel()).indexOfFirst { (flagX, flagY) ->
+//                val banderaX = (flagX * scaleX) + 50
+//                val banderaY = (flagY * scaleY) + 100
+//                val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
+//                distance < 150 // Umbral de proximidad
+//            }
+//            Log.d("CanvasMap","Nivel jugando ............................... $banderaCercana")
+//            db.actualizarNivelJugando(banderaCercana)
         }
     }
 
