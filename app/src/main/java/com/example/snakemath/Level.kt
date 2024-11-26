@@ -16,7 +16,9 @@ class Level : AppCompatActivity() {
 
 
         var db: DBsqlite = DBsqlite(this)
-        db.actualizarPrimeraVez(1)
+        if(db.obtenerMundo() == 1){
+            db.actualizarPrimeraVez(1)
+        }
         if(db.obtenerMundo() == 2){
             db.actualizarPrimeraVez(3)
         }

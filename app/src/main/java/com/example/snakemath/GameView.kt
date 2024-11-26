@@ -265,9 +265,6 @@ class GameView @JvmOverloads constructor(
         invalidate()
     }
 
-
-
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawGrid(canvas)
@@ -298,24 +295,20 @@ class GameView @JvmOverloads constructor(
         headMatrix.postTranslate(bolitaX, bolitaY)
         canvas.drawBitmap(headBitmap, headMatrix, null)
 
-        val tamanoCubo = 100
+        val tamanoCubo = 140
 
         for (manzana in manzanasEnElMapa) {
             val manzanaBitmap = BitmapFactory.decodeResource(resources, manzana.imagen)
             val scaledManzanaBitmap = Bitmap.createScaledBitmap(manzanaBitmap, tamanoCubo, tamanoCubo, true)
-            canvas.drawBitmap(scaledManzanaBitmap, manzana.x, manzana.y, null)
+            canvas.drawBitmap(scaledManzanaBitmap, manzana.x -20, manzana.y - 20, null)
         }
 
 
         for (manzana in manzanasEnElMapa2) {
             val manzanaBitmap = BitmapFactory.decodeResource(resources, manzana.imagen)
             val scaledManzanaBitmap = Bitmap.createScaledBitmap(manzanaBitmap, tamanoCubo, tamanoCubo, true)
-            canvas.drawBitmap(scaledManzanaBitmap, manzana.x, manzana.y, null)
+            canvas.drawBitmap(scaledManzanaBitmap, manzana.x - 20, manzana.y - 20, null)
         }
-
-
-        //paint.color = Color.BLACK
-        //canvas.drawCircle(comidaX + gridSize / 2, comidaY + gridSize / 2, (gridSize / 2) - 10, paint)
     }
 
     private fun drawGrid(canvas: Canvas) {
@@ -336,7 +329,6 @@ class GameView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isGameStarted) {
-            // Iniciar el juego con el primer deslizamiento
             isGameStarted = true
             startMovement() // Inicia el movimiento
         }
@@ -443,27 +435,6 @@ class GameView @JvmOverloads constructor(
                     onOperacionGeneradaListener?.invoke("",operaciones_resueltas)
                     generateRandomManzana()
                 }
-//                else if(manzana.tipo == "numero" && operacionarray.size != 3){
-//                    score ++
-//                    scoreTextView?.text = "Score: $score"
-//                    snakeBody.add(Pair(bolitaX, bolitaY))
-//                    operacionarray.add(manzana)
-//                    manzanasEnElMapa.clear()
-//                    if(operacionarray.size != 3) {
-//                        generateOperation()
-//                    }
-//                }
-
-                // Verificar si ya se tienen 3 elementos en `operacionarray`
-//                if (operacionarray.size == 3) {
-//
-//                    val operacionString = construirOperacion()
-//                    onOperacionGeneradaListener?.invoke(operacionString,operaciones_resueltas)
-//                    //operacionTextView.text = operacionString
-//
-//                    // Opcional: Limpiar operacionarray después de mostrar la operación
-//                    // operacionarray.clear()
-//                }
                 break
             }
         }
@@ -500,6 +471,8 @@ class GameView @JvmOverloads constructor(
         }
         var random =(0..2).random()
         var banderapass = false
+        var manzanaX = 0F
+        var manzanaY = 0F
         var manzanaAleatoria = manzanas2.find { it.numero == total }
         for(i in 0..2){
             if(i == random){
@@ -511,6 +484,14 @@ class GameView @JvmOverloads constructor(
                 banderapass = false
             }
 
+            do {
+                // Asegúrate de que maxWidth y maxHeight sean valores enteros
+                manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
+                manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
+                Log.d("GameView", "Intentando generar manzana en ($manzanaX, $manzanaY)")
+            } while (snakeBody.any { it.first == manzanaX && it.second == manzanaY } || manzanasEnElMapa.any { it.x == manzanaX && it.y == manzanaY })
+
+
             if (manzanaAleatoria == null) {
                 manzanaAleatoria = manzanas2.toList().random()
             }
@@ -518,8 +499,8 @@ class GameView @JvmOverloads constructor(
                 imagen = manzanaAleatoria.imagen,
                 tipo = manzanaAleatoria.tipo,
                 numero = manzanaAleatoria.numero,
-                x = coordx + (i*200),
-                y = coordy,
+                x = manzanaX,
+                y = manzanaY,
                 bandera1 = banderapass
             )
 
