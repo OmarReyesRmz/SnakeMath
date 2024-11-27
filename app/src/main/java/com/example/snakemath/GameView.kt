@@ -1,6 +1,7 @@
 package com.example.snakemath
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GestureDetectorCompat
 import kotlin.random.Random
 
@@ -379,6 +381,18 @@ class GameView @JvmOverloads constructor(
             Direction.DOWN -> if (bolitaY + step + gridSize / 2 < height) bolitaY += step
         }
 
+        if (bolitaX < 0 || bolitaX + gridSize > width || bolitaY < 0 || bolitaY + gridSize > height) {
+            resetGame()
+            return
+        }
+
+        for (segment in snakeBody) {
+            if (bolitaX == segment.first && bolitaY == segment.second) {
+                resetGame()
+                return
+            }
+        }
+
         if (snakeBody.isNotEmpty()) {
             for (i in snakeBody.size - 1 downTo 1) {
                 snakeBody[i] = snakeBody[i - 1]
@@ -392,6 +406,12 @@ class GameView @JvmOverloads constructor(
         if (bolitaX + gridSize > width) bolitaX = width - gridSize
         if (bolitaY < 0) bolitaY = 0f
         if (bolitaY + gridSize > height) bolitaY = height - gridSize
+    }
+
+    private fun resetGame() {
+        val intent = Intent(context, Mapa::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        context.startActivity(intent)
     }
 
     fun setOnOperacionGeneradaListener(listener: (String, Int) -> Unit) {
