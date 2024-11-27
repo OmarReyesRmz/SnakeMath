@@ -2,6 +2,7 @@ package com.example.snakemath
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -14,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         var db: DBsqlite = DBsqlite(this)
         if(!db.datosExistentes()){

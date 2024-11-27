@@ -2,6 +2,7 @@ package com.example.snakemath
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -18,6 +19,9 @@ class TutorialSuma: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_tutorialsuma)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tutorialsuma)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

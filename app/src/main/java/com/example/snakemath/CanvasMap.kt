@@ -25,7 +25,7 @@ class CanvasMap @JvmOverloads constructor(
     private val nextMapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_suma)
     private val mundo2MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_resta)
     private val mundo3MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_multiplicacion)
-    private val mundo4MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map_nivel_division)
+    private val mundo4MapBitmap = BitmapFactory.decodeResource(resources, R.drawable.map)
 
     private val personajeWidth = 350
     private val personajeHeight = 250

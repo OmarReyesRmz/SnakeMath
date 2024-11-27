@@ -409,9 +409,7 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun resetGame() {
-        val intent = Intent(context, Mapa::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        context.startActivity(intent)
+        onOperacionGeneradaListener?.invoke("perdio",operaciones_resueltas)
     }
 
     fun setOnOperacionGeneradaListener(listener: (String, Int) -> Unit) {

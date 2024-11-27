@@ -3,6 +3,7 @@ package com.example.snakemath
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -12,6 +13,10 @@ class Level : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         setContentView(R.layout.activity_level)
 
 
@@ -56,18 +61,29 @@ class Level : AppCompatActivity() {
                     db.actualizarPrimeraVez(6)
                 }
 
-                val intent = Intent(this, Mapa::class.java)
-                startActivity(intent)
+                //termina el level cuando gana
+                finish()
             }
         }
     }
 
     fun actualizarOperacion(operacion: String, Operaciones_resueltas: Int): Boolean{
-        operacionTextView.text = operacion
-        if(Operaciones_resueltas == 1){
+        if(operacion == "perdio") {
+            finish()
+        }else{
+            operacionTextView.text = operacion
+        }
+        if(Operaciones_resueltas == 6){
             return true
         }
         return false
+    }
+    override fun onPause(){
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }
