@@ -243,8 +243,19 @@ class CanvasMap @JvmOverloads constructor(
             val distance = Math.hypot((personajeX - banderaX).toDouble(), (personajeY - banderaY).toDouble())
             distance < 150 // Umbral de proximidad
         }
-        Log.d("CanvasMap","Nivel jugando ............................... $banderaCercana")
 
+        //Asginar el mundo que estamos jugando cunado se da click al boton
+        if((banderaCercana+1) <= 5){
+            db.actualizarMundoJugando(1)
+        }else if((banderaCercana+1) <= 8){
+            db.actualizarMundoJugando(2)
+        }else if((banderaCercana+1) <= 14){
+            db.actualizarMundoJugando(3)
+        }else if((banderaCercana+1) <= 18){
+            db.actualizarMundoJugando(4)
+        }
+
+        //Asignar el nivel que estamos jugando
         db.actualizarNivelJugando(banderaCercana + 1)
 
         // Mostrar u ocultar el botón de navegación según la proximidad

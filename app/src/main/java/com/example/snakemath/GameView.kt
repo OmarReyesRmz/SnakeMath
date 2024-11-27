@@ -25,13 +25,11 @@ class GameView @JvmOverloads constructor(
     private val step = gridSize
     private val gestureDetector: GestureDetectorCompat
 
-    private var comidaX = 0f
-    private var comidaY = 0f
+    var db: DBsqlite = DBsqlite(context)
     private val snakeBody = mutableListOf<Pair<Float, Float>>()
     private val snakeDirections = mutableListOf<Direction>()
     private var headBitmap: Bitmap
     private var bodyBitmap: Bitmap
-    private var comidaActual: Manzanas? = null
 
     private enum class Direction { UP, DOWN, LEFT, RIGHT }
     private val headwidth = 95
@@ -45,25 +43,6 @@ class GameView @JvmOverloads constructor(
     var manzanasEnElMapa: MutableList<Manzanas> = mutableListOf()  // Inicialización de manzanasEnElMapa
     var manzanasEnElMapa2: MutableList<Manzanas> = mutableListOf()  // Inicialización de manzanasEnElMapa
     var operacionarray: MutableList<Manzanas> = mutableListOf()
-
-    private val manzanas = arrayOf(
-        Manzanas(R.drawable.apple1, "numero", 1),
-        Manzanas(R.drawable.apple2, "numero", 2),
-        Manzanas(R.drawable.apple3, "numero", 3),
-        Manzanas(R.drawable.apple4, "numero", 4),
-        Manzanas(R.drawable.apple5, "numero", 5),
-        Manzanas(R.drawable.apple6, "numero", 6),
-        Manzanas(R.drawable.apple7, "numero", 7),
-        Manzanas(R.drawable.apple8, "numero", 8),
-        Manzanas(R.drawable.apple9, "numero", 9),
-        Manzanas(R.drawable.apple10, "numero", 10),
-        Manzanas(R.drawable.apple11, "numero", 11),
-        Manzanas(R.drawable.apple12, "numero", 12),
-        Manzanas(R.drawable.applesum, "operacion", 9996),
-        Manzanas(R.drawable.applediv, "operacion", 9997),
-        Manzanas(R.drawable.applemult, "operacion", 9998),
-        Manzanas(R.drawable.appleres, "operacion", 9999)
-    )
 
     private val manzanas2 = listOf(
         Manzanas(R.drawable.apple1, "numero", 1),
@@ -165,9 +144,12 @@ class GameView @JvmOverloads constructor(
         Manzanas(R.drawable.apple97, "numero", 97),
         Manzanas(R.drawable.apple98, "numero", 98),
         Manzanas(R.drawable.apple99, "numero", 99),
-        Manzanas(R.drawable.apple100, "numero", 100)
+        Manzanas(R.drawable.apple100, "numero", 100),
+        Manzanas(R.drawable.applesum, "operacion", 9996),
+        Manzanas(R.drawable.applediv, "operacion", 9997),
+        Manzanas(R.drawable.applemult, "operacion", 9998),
+        Manzanas(R.drawable.appleres, "operacion", 9999)
     )
-
 
     private var onOperacionGeneradaListener: ((String, Int) -> Unit)? = null
 
@@ -202,17 +184,47 @@ class GameView @JvmOverloads constructor(
             var manzanaY: Float = 0f
 
             do {
-                // Asegúrate de que maxWidth y maxHeight sean valores enteros
                 manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
                 manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
-                Log.d("GameView", "Intentando generar manzana en ($manzanaX, $manzanaY)")
             } while (snakeBody.any { it.first == manzanaX && it.second == manzanaY } || manzanasEnElMapa.any { it.x == manzanaX && it.y == manzanaY })
 
             // Seleccionamos una manzana aleatoria de las disponibles
-            var manzanaAleatoria = manzanas.toList().random()
-            while (manzanaAleatoria.tipo != "numero") {
-                // Si el tipo no es "numero", se selecciona una nueva manzana aleatoria
-                manzanaAleatoria = manzanas.toList().random()
+
+            //Log.d("Canvas","${db.obtenerMundoJugando()} Mundo")
+            val tamaño =  manzanas2.size
+            var manzanaAleatoria = manzanas2[tamaño-1]
+            if(db.obtenerMundoJugando()  == 1) {
+                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 50) {
+                    manzanaAleatoria = manzanas2.toList().random()
+                }
+            }else if(db.obtenerMundoJugando() == 2){
+                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 40) {
+                    if(operacionarray.size == 2){
+                        while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero) {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
+                    }else {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }
+            }else if(db.obtenerMundoJugando()  == 3){
+                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 10) {
+                    manzanaAleatoria = manzanas2.toList().random()
+                }
+            }else if(db.obtenerMundoJugando()  == 4){
+                //Log.d("Canvas","${manzanaAleatoria.numero} Manzana encontrada0")
+                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 100) {
+                    //Log.d("Canvas","${manzanaAleatoria.numero} Manzana encontrada1")
+                    if(operacionarray.size == 2){
+                        while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero || operacionarray[0].numero%manzanaAleatoria.numero != 0) {
+                            manzanaAleatoria = manzanas2.toList().random()
+                            //Log.d("Canvas","${manzanaAleatoria.numero} Manzana encontrada2")
+                        }
+                        //Log.d("Canvas","Manzana encontrada3")
+                    }else {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }
             }
 
             val nuevaManzana = Manzanas(
@@ -225,11 +237,9 @@ class GameView @JvmOverloads constructor(
 
             // Añadimos la nueva manzana al vector de manzanas en el mapa
             manzanasEnElMapa.add(nuevaManzana)
-            Log.d("GameView", "Manzana generada en ($manzanaX, $manzanaY)")
         }
         invalidate()  // Llamamos a invalidate después de generar las 5 manzanas
     }
-
 
     private fun generateOperation(){
         for (i in 1..5) {  // Ciclo que se ejecutará 5 veces
@@ -237,17 +247,28 @@ class GameView @JvmOverloads constructor(
             var manzanaY: Float = 0f
 
             do {
-                // Asegúrate de que maxWidth y maxHeight sean valores enteros
                 manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
                 manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
-                Log.d("GameView", "Intentando generar manzana en ($manzanaX, $manzanaY)")
             } while (snakeBody.any { it.first == manzanaX && it.second == manzanaY } || manzanasEnElMapa.any { it.x == manzanaX && it.y == manzanaY })
 
             // Seleccionamos una manzana aleatoria de las disponibles
-            var manzanaAleatoria = manzanas.toList().random()
-            while (manzanaAleatoria.numero != 9996) {
-                // Si el tipo no es "numero", se selecciona una nueva manzana aleatoria
-                manzanaAleatoria = manzanas.toList().random()
+            var manzanaAleatoria = manzanas2.toList().random()
+            if(db.obtenerMundoJugando()  == 1) {
+                while (manzanaAleatoria.numero != 9996) {
+                    manzanaAleatoria = manzanas2.toList().random()
+                }
+            }else if(db.obtenerMundoJugando() == 2){
+                while (manzanaAleatoria.numero != 9999) {
+                    manzanaAleatoria = manzanas2.toList().random()
+                }
+            }else if(db.obtenerMundoJugando()  == 3){
+                while (manzanaAleatoria.numero != 9998) {
+                    manzanaAleatoria = manzanas2.toList().random()
+                }
+            }else if(db.obtenerMundoJugando()  == 4){
+                while (manzanaAleatoria.numero != 9997) {
+                    manzanaAleatoria = manzanas2.toList().random()
+                }
             }
 
             val nuevaManzana = Manzanas(
@@ -260,7 +281,6 @@ class GameView @JvmOverloads constructor(
 
             // Añadimos la nueva manzana al vector de manzanas en el mapa
             manzanasEnElMapa.add(nuevaManzana)
-            Log.d("GameView", "Manzana generada en ($manzanaX, $manzanaY)")
         }
         invalidate()
     }
@@ -404,8 +424,6 @@ class GameView @JvmOverloads constructor(
                     onOperacionGeneradaListener?.invoke(operacionString,operaciones_resueltas)
                     //operacionTextView.text = operacionString
 
-                    // Opcional: Limpiar operacionarray después de mostrar la operación
-                    // operacionarray.clear()
                 }
                 break
             }
@@ -444,26 +462,27 @@ class GameView @JvmOverloads constructor(
         // Suponiendo que las manzanas tienen atributos `tipo` y `numero`
         val operandos = mutableListOf<String>()
         var total = 0
-        val coordx = 200f
-        val coordy = 1300f
 
         for (manzana in operacionarray) {
             if (manzana.tipo == "numero") {
-                total += manzana.numero
                 operandos.add(manzana.numero.toString()) // Agregar números
             } else if (manzana.tipo == "operacion") {
                 when(manzana.numero){
                     9996 -> {
                         operandos.add("+")
+                        total = operacionarray[0].numero + operacionarray[2].numero
                     }
                     9997 -> {
                         operandos.add("/")
+                        total = operacionarray[0].numero / operacionarray[2].numero
                     }
                     9998 -> {
                         operandos.add("*")
+                        total = operacionarray[0].numero * operacionarray[2].numero
                     }
                     9999 -> {
                         operandos.add("-")
+                        total = operacionarray[0].numero - operacionarray[2].numero
                     }
                 }
 
@@ -481,6 +500,9 @@ class GameView @JvmOverloads constructor(
             }else{
                 val manzanasSinTotal = manzanas2.filter { it.numero != total }
                 manzanaAleatoria = manzanasSinTotal.random()
+                while (manzanaAleatoria?.tipo != "numero") {
+                    manzanaAleatoria = manzanasSinTotal.random()
+                }
                 banderapass = false
             }
 
@@ -488,7 +510,6 @@ class GameView @JvmOverloads constructor(
                 // Asegúrate de que maxWidth y maxHeight sean valores enteros
                 manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
                 manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
-                Log.d("GameView", "Intentando generar manzana en ($manzanaX, $manzanaY)")
             } while (snakeBody.any { it.first == manzanaX && it.second == manzanaY } || manzanasEnElMapa.any { it.x == manzanaX && it.y == manzanaY })
 
 
@@ -506,9 +527,7 @@ class GameView @JvmOverloads constructor(
 
             manzanasEnElMapa2.add(nuevaManzana)
         }
-
         invalidate()
-
         // Combinar los elementos para construir la operación
         return operandos.joinToString(" ")
     }
@@ -516,7 +535,6 @@ class GameView @JvmOverloads constructor(
     fun setScoreTextView(textView: TextView) {
         scoreTextView = textView
     }
-
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
         private val SWIPE_THRESHOLD = 100

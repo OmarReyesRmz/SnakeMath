@@ -19,6 +19,7 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
                     "nivel INTEGER NOT NULL," +          // Para identificar en qué nivel va
                     "nivel_jugando INTEGER NOT NULL," +
                     "mundo INTEGER NOT NULL," +          // Para identificar en qué mundo va
+                    "mundo_jugando INTEGER NOT NULL," +
                     "esPrimeraVez INTEGER NOT NULL," +   // 1 para true (sí es la primera vez), 0 para false
                     "dineroTotal REAL NOT NULL DEFAULT 0," +  // Dinero acumulado
                     "tipoSerpiente TEXT NOT NULL" +      // Tipo de serpiente elegida por el jugador
@@ -48,11 +49,11 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
     }
 
 
-    fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String){
+    fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int,mundo_jugando: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String){
         val db = writableDatabase
         db.execSQL(
-            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo, esPrimeraVez, dineroTotal, tipoSerpiente) " +
-                    "VALUES($nivel,$nivel_jugando, $mundo, $primeravez, $dineroTotal, '$tipoSerpiente')"
+            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente) " +
+                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente')"
         )
 
     }
@@ -105,6 +106,12 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
         db.close()
     }
 
+    fun actualizarMundoJugando(mundo_jugando: Int) {
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET mundo_jugando = $mundo_jugando")
+        db.close()
+    }
+
     fun actualizarDineroTotal(dineroTotal: Float) {
         val db = writableDatabase
         db.execSQL("UPDATE $TABLE_NAME SET dineroTotal = $dineroTotal")
@@ -143,6 +150,17 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
     fun obtenerMundo(): Int {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT mundo FROM $TABLE_NAME", null)
+        var mundo = -1
+        if (cursor.moveToFirst()) {
+            mundo = cursor.getInt(0)
+        }
+        cursor.close()
+        return mundo
+    }
+
+    fun obtenerMundoJugando(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT mundo_jugando FROM $TABLE_NAME", null)
         var mundo = -1
         if (cursor.moveToFirst()) {
             mundo = cursor.getInt(0)
