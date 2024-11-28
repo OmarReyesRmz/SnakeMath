@@ -4,12 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-class Level : AppCompatActivity() {
+class Level : AppCompatActivity(), OnLifeLostListener {
 
     private lateinit var operacionTextView: TextView
+    private lateinit var corazon1: ImageView
+    private lateinit var corazon2: ImageView
+    private lateinit var corazon3: ImageView
+    private var vidasRestantes = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +23,7 @@ class Level : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         setContentView(R.layout.activity_level)
+
 
 
         var db: DBsqlite = DBsqlite(this)
@@ -35,11 +41,18 @@ class Level : AppCompatActivity() {
         }
         // Inicializamos las vistas
         val scoreTextView = findViewById<TextView>(R.id.scoreText)
+        val scoreTextView2 = findViewById<TextView>(R.id.scoreText2)
         val gameView = findViewById<GameView>(R.id.gameView)
+        corazon1 = findViewById(R.id.heart1)
+        corazon2 = findViewById(R.id.heart2)
+        corazon3 = findViewById(R.id.heart3)
+
+        gameView.onLifeLostListener = this
         operacionTextView = findViewById(R.id.Operacion)
 
         // Configuramos el puntaje
         gameView.setScoreTextView(scoreTextView)
+        gameView.setScoreTextView2(scoreTextView2)
 
         // Configurar el listener para operaciones
         gameView.setOnOperacionGeneradaListener { operacion, operacionesResueltas ->
@@ -64,6 +77,15 @@ class Level : AppCompatActivity() {
                 //termina el level cuando gana
                 finish()
             }
+        }
+    }
+
+    override fun onLifeLost(vidasRestantes: Int) {
+        if(vidasRestantes == 2){
+            corazon3.setImageResource(R.drawable.lifeempty)
+        }else if(vidasRestantes == 1){
+            corazon2.setImageResource(R.drawable.lifeempty)
+            corazon3.setImageResource(R.drawable.lifeempty)
         }
     }
 

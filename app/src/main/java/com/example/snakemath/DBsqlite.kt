@@ -112,7 +112,7 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
         db.close()
     }
 
-    fun actualizarDineroTotal(dineroTotal: Float) {
+    fun actualizarDineroTotal(dineroTotal: Int) {
         val db = writableDatabase
         db.execSQL("UPDATE $TABLE_NAME SET dineroTotal = $dineroTotal")
         db.close()

@@ -23,6 +23,7 @@ class GameView @JvmOverloads constructor(
     private var bolitaY = gridSize
     val maxWidth = 350 * resources.displayMetrics.density
     val maxHeight = 600 * resources.displayMetrics.density
+
     private var currentDirection = Direction.RIGHT
     private val step = gridSize
     private val gestureDetector: GestureDetectorCompat
@@ -32,16 +33,20 @@ class GameView @JvmOverloads constructor(
     private val snakeDirections = mutableListOf<Direction>()
     private var headBitmap: Bitmap
     private var bodyBitmap: Bitmap
+    private var new = 0
 
     private enum class Direction { UP, DOWN, LEFT, RIGHT }
     private val headwidth = 95
     private val headheight = 110
     private val bodywidth = 100
     private val bodyheight = 100
+    var onLifeLostListener: OnLifeLostListener? = null
+    private var vidasRestantes = 3
     private var operaciones_resueltas = 0
 
     private var score = 0
     private var scoreTextView: TextView? = null
+    private var scoreTextView2: TextView? = null
     var manzanasEnElMapa: MutableList<Manzanas> = mutableListOf()  // Inicialización de manzanasEnElMapa
     var manzanasEnElMapa2: MutableList<Manzanas> = mutableListOf()  // Inicialización de manzanasEnElMapa
     var operacionarray: MutableList<Manzanas> = mutableListOf()
@@ -409,6 +414,7 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun resetGame() {
+        db.actualizarDineroTotal(new/2)
         onOperacionGeneradaListener?.invoke("perdio",operaciones_resueltas)
     }
 
@@ -426,7 +432,9 @@ class GameView @JvmOverloads constructor(
                     generateRandomManzana()
                 }else if(manzana.tipo == "numero" && operacionarray.size != 3){
                     score ++
-                    scoreTextView?.text = "Score: $score"
+                    scoreTextView?.text = "S C O R E : $score"
+                    new ++
+                    scoreTextView2?.text = "$new"
                     snakeBody.add(Pair(bolitaX, bolitaY))
                     operacionarray.add(manzana)
                     manzanasEnElMapa.clear()
@@ -451,9 +459,14 @@ class GameView @JvmOverloads constructor(
                 snakeDirections.add(currentDirection)
                 if (manzana.bandera1){
                     score ++
+                    if(operaciones_resueltas + 1 == 6){
+                        db.actualizarDineroTotal(new)
+                    }
                     operaciones_resueltas ++
                     manzana.bandera1 = false
-                    scoreTextView?.text = "Score: $score"
+                    scoreTextView?.text = "S C O R E : $score"
+                    new += 2
+                    scoreTextView2?.text = "$new"
                     snakeBody.add(Pair(bolitaX, bolitaY))
                     manzanasEnElMapa2.clear()
                     operacionarray.clear()
@@ -461,15 +474,30 @@ class GameView @JvmOverloads constructor(
                     generateRandomManzana()
                 }else if(!manzana.bandera1){
                     score -= 5
+                    if(operaciones_resueltas + 1 == 6){
+                        db.actualizarDineroTotal(new)
+                    }
                     operaciones_resueltas ++
                     manzana.bandera1 = false
                     snakeBody.removeAt(snakeBody.size - 1)
                     snakeBody.removeAt(snakeBody.size - 1)
-                    scoreTextView?.text = "Score: $score"
+                    scoreTextView?.text = "S C O R E : $score"
+                    new -= 4
+                    if(new <= 0){
+                        new = 0
+                    }
+                    scoreTextView2?.text = "$new"
                     manzanasEnElMapa2.clear()
                     operacionarray.clear()
                     onOperacionGeneradaListener?.invoke("",operaciones_resueltas)
                     generateRandomManzana()
+
+                    // Notifica al listener sobre la pérdida de una vida
+                    if (vidasRestantes > 0) {
+                        vidasRestantes--
+                        onLifeLostListener?.onLifeLost(vidasRestantes)
+                    }
+
                 }
                 break
             }
@@ -552,6 +580,10 @@ class GameView @JvmOverloads constructor(
 
     fun setScoreTextView(textView: TextView) {
         scoreTextView = textView
+    }
+
+    fun setScoreTextView2(textView: TextView) {
+        scoreTextView2 = textView
     }
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
