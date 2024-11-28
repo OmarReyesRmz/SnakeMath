@@ -2,6 +2,8 @@ package com.example.snakemath
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
@@ -61,21 +63,36 @@ class Level : AppCompatActivity(), OnLifeLostListener {
                     db.actualizarNivel(db.obtenerNivel() + 1)
                 }
 
-                if(db.obtenerNivel() == 6 && db.obtenerMundo() == 1){
+                val intent = Intent(this, Mapa::class.java)
+
+                if(db.obtenerNivel() == 6 && db.obtenerMundo() == 1) {
                     db.actualizarMundo(2)
                     db.actualizarPrimeraVez(2)
-                }
-                if(db.obtenerNivel() == 9 && db.obtenerMundo() == 2){
+                    //termina el level cuando gana
+//                    Handler(Looper.getMainLooper()).postDelayed({
+//                        finish()
+//                    }, 1000)
+                    startActivity(intent)
+                    finish()
+                }else if(db.obtenerNivel() == 9 && db.obtenerMundo() == 2){
                     db.actualizarMundo(3)
                     db.actualizarPrimeraVez(4)
-                }
-                if(db.obtenerNivel() == 15 && db.obtenerMundo() == 3){
+                    //termina el level cuando gana
+                    startActivity(intent)
+                    finish()
+                }else if(db.obtenerNivel() == 15 && db.obtenerMundo() == 3){
                     db.actualizarMundo(4)
                     db.actualizarPrimeraVez(6)
+                    //termina el level cuando gana
+                    startActivity(intent)
+                    finish()
+                }else{
+                    //termina el level cuando gana
+                    startActivity(intent)
+                    finish()
                 }
 
-                //termina el level cuando gana
-                finish()
+
             }
         }
     }
@@ -95,7 +112,7 @@ class Level : AppCompatActivity(), OnLifeLostListener {
         }else{
             operacionTextView.text = operacion
         }
-        if(Operaciones_resueltas == 6){
+        if(Operaciones_resueltas == 1){
             return true
         }
         return false
