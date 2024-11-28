@@ -201,35 +201,109 @@ class GameView @JvmOverloads constructor(
             val tamaño =  manzanas2.size
             var manzanaAleatoria = manzanas2[tamaño-1]
             if(db.obtenerMundoJugando()  == 1) {
-                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 50) {
-                    manzanaAleatoria = manzanas2.toList().random()
-                }
-            }else if(db.obtenerMundoJugando() == 2){
-                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 40) {
-                    if(operacionarray.size == 2){
-                        while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero) {
-                            manzanaAleatoria = manzanas2.toList().random()
-                        }
-                    }else {
+                if(db.obtenerNivelJugando() >= 1 && db.obtenerNivelJugando() <= 3) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 10) {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }else if(db.obtenerNivelJugando() == 4){
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 25) {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }else if(db.obtenerMundoJugando() == 5){
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 50) {
                         manzanaAleatoria = manzanas2.toList().random()
                     }
                 }
+            }else if(db.obtenerMundoJugando() == 2){
+                if(db.obtenerNivelJugando() == 6) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 10) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
+                    }
+                }else if(db.obtenerNivelJugando() == 7) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 25) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
+                    }
+                }else if(db.obtenerNivelJugando() == 8){
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 40) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
+                    }
+                }
             }else if(db.obtenerMundoJugando()  == 3){
-                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 10) {
-                    manzanaAleatoria = manzanas2.toList().random()
+                if (db.obtenerNivelJugando() == 9) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 3) {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }else  if (db.obtenerNivelJugando() >= 10 && db.obtenerNivelJugando() <= 12) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 5) {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }else  if (db.obtenerNivelJugando() == 13) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 7) {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }else  if (db.obtenerNivelJugando() >= 14) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 10) {
+                        manzanaAleatoria = manzanas2.toList().random()
+                    }
                 }
             }else if(db.obtenerMundoJugando()  == 4){
-                //Log.d("Canvas","${manzanaAleatoria.numero} Manzana encontrada0")
-                while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 100) {
-                    //Log.d("Canvas","${manzanaAleatoria.numero} Manzana encontrada1")
-                    if(operacionarray.size == 2){
-                        while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero || operacionarray[0].numero%manzanaAleatoria.numero != 0) {
+                if(db.obtenerNivelJugando() == 15) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 20) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero || operacionarray[0].numero % manzanaAleatoria.numero != 0) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
                             manzanaAleatoria = manzanas2.toList().random()
-                            //Log.d("Canvas","${manzanaAleatoria.numero} Manzana encontrada2")
                         }
-                        //Log.d("Canvas","Manzana encontrada3")
-                    }else {
-                        manzanaAleatoria = manzanas2.toList().random()
+                    }
+                }else if(db.obtenerNivelJugando() == 16) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 40) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero || operacionarray[0].numero % manzanaAleatoria.numero != 0) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
+                    }
+                }else if(db.obtenerNivelJugando() == 17) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 70) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero || operacionarray[0].numero % manzanaAleatoria.numero != 0) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
+                    }
+                }else if(db.obtenerNivelJugando() == 18) {
+                    while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 100) {
+                        if (operacionarray.size == 2) {
+                            while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= operacionarray[0].numero || operacionarray[0].numero % manzanaAleatoria.numero != 0) {
+                                manzanaAleatoria = manzanas2.toList().random()
+                            }
+                        } else {
+                            manzanaAleatoria = manzanas2.toList().random()
+                        }
                     }
                 }
             }
