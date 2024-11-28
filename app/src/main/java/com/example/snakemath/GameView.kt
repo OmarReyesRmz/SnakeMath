@@ -344,7 +344,23 @@ class GameView @JvmOverloads constructor(
         val rows = (height / gridSize) + 1
         for (i in 0 until cols.toInt()) {
             for (j in 0 until rows.toInt()) {
-                paint.color = if ((i + j) % 2 == 0) Color.parseColor("#AADD55") else Color.parseColor("#88CC44")
+                if (db.obtenerMundoJugando() == 1) {
+                    // Mundo 1 - Verde clásico
+                    paint.color =
+                        if ((i + j) % 2 == 0) Color.parseColor("#AADD55") else Color.parseColor("#88CC44")
+                } else if (db.obtenerMundoJugando() == 2) {
+                    // Mundo 2 - Futurístico metálico
+                    paint.color =
+                        if ((i + j) % 2 == 0) Color.parseColor("#B0BEC5") else Color.parseColor("#CFD8DC")
+                } else if (db.obtenerMundoJugando() == 3) {
+                    // Mundo 3 - Blanco y gris claro
+                    paint.color =
+                        if ((i + j) % 2 == 0) Color.parseColor("#E0F7FA") else Color.parseColor("#B2EBF2")
+                } else if (db.obtenerMundoJugando() == 4) {
+                    // Mundo 4 - Lava (rojo, naranja, negro)
+                    paint.color =
+                        if ((i + j) % 2 == 0) Color.parseColor("#FFCC99") else Color.parseColor("#D18B47")
+                }
                 canvas.drawRect(
                     i * gridSize, j * gridSize, (i + 1) * gridSize, (j + 1) * gridSize, paint
                 )
@@ -459,7 +475,7 @@ class GameView @JvmOverloads constructor(
                 snakeDirections.add(currentDirection)
                 if (manzana.bandera1){
                     score ++
-                    if(operaciones_resueltas + 1 == 6){
+                    if(operaciones_resueltas + 1 == 5){
                         db.actualizarDineroTotal(new)
                     }
                     operaciones_resueltas ++
@@ -474,7 +490,7 @@ class GameView @JvmOverloads constructor(
                     generateRandomManzana()
                 }else if(!manzana.bandera1){
                     score -= 5
-                    if(operaciones_resueltas + 1 == 6){
+                    if(operaciones_resueltas + 1 == 5){
                         db.actualizarDineroTotal(new)
                     }
                     operaciones_resueltas ++
