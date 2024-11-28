@@ -66,7 +66,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="8dp"
-                    android:background="#EEEEEE" />
+                    android:src="@drawable/snakeblue" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100"
+                        android:text="0"
                         android:textColor="#000000"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -103,7 +103,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="8dp"
-                    android:background="#EEEEEE" />
+                    android:src="@drawable/snakerojodblock" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="8dp"
-                    android:background="#EEEEEE" />
+                    android:src="@drawable/snakecyanblock" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="0dp"
-                    android:background="#EEEEEE" />
+                    android:src="@drawable/snakeyellowblock" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -215,7 +215,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="0dp"
-                    android:background="#EEEEEE" />
+                    android:src="@drawable/snakegreenblock" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -252,7 +252,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="0dp"
-                    android:background="#EEEEEE" />
+                    android:src="@drawable/snakeorangeblock" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
