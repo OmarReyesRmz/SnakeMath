@@ -52,34 +52,11 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
     fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int,mundo_jugando: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String){
         val db = writableDatabase
         db.execSQL(
-            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente) " +
+            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, ) " +
                     "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente')"
         )
 
     }
-
-    /*fun borrarDatos(){
-        val db = writableDatabase
-        db.execSQL("DELETE FROM $TABLE_NAME")
-        db.close()
-    }*/
-
-    /*fun listaDatos(): Vector<String> {
-        val result = Vector<String>()
-        val db = readableDatabase
-        var cursor = db.rawQuery(
-            "SELECT id,nombre " +
-                    "FROM " + TABLE_NAME + " ORDER BY id", null
-        )
-        while (cursor.moveToNext()){
-            result.add(
-                (cursor.getInt(0).toString() + " "
-                        + cursor.getString(1))
-            )
-        }
-        cursor.close()
-        return result
-    }*/
 
     // Métodos para actualizar (SET)
     fun actualizarPrimeraVez(primeravez: Int) {

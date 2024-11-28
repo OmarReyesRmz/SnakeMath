@@ -189,7 +189,7 @@ class GameView @JvmOverloads constructor(
         for (i in 1..5) {  // Ciclo que se ejecutará 5 veces
             var manzanaX: Float = 0f
             var manzanaY: Float = 0f
-
+            
             do {
                 manzanaX = Random.nextInt(0, (maxWidth / gridSize).toInt()) * gridSize
                 manzanaY = Random.nextInt(0, (maxHeight / gridSize).toInt()) * gridSize
