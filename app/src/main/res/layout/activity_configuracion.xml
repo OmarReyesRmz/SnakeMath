@@ -10,7 +10,7 @@
     android:background="@drawable/fondo_estanteria">
 
     <TextView
-        android:id="@+id/txt_configuracion"
+        android:id="@+id/monedas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

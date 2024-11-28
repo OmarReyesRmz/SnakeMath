@@ -112,7 +112,7 @@ class Level : AppCompatActivity(), OnLifeLostListener {
         }else{
             operacionTextView.text = operacion
         }
-        if(Operaciones_resueltas == 1){
+        if(Operaciones_resueltas == 5){
             return true
         }
         return false

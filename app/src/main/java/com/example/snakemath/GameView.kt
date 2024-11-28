@@ -197,7 +197,6 @@ class GameView @JvmOverloads constructor(
 
             // Seleccionamos una manzana aleatoria de las disponibles
 
-            //Log.d("Canvas","${db.obtenerMundoJugando()} Mundo")
             val tamaño =  manzanas2.size
             var manzanaAleatoria = manzanas2[tamaño-1]
             if(db.obtenerMundoJugando()  == 1) {
@@ -504,6 +503,7 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun resetGame() {
+        new += db.obtenerDineroTotal().toInt()
         db.actualizarDineroTotal(new/2)
         onOperacionGeneradaListener?.invoke("perdio",operaciones_resueltas)
     }
@@ -550,6 +550,7 @@ class GameView @JvmOverloads constructor(
                 if (manzana.bandera1){
                     score ++
                     if(operaciones_resueltas + 1 == 5){
+                        new += db.obtenerDineroTotal().toInt()
                         db.actualizarDineroTotal(new)
                     }
                     operaciones_resueltas ++
@@ -565,6 +566,7 @@ class GameView @JvmOverloads constructor(
                 }else if(!manzana.bandera1){
                     score -= 5
                     if(operaciones_resueltas + 1 == 5){
+                        new += db.obtenerDineroTotal().toInt()
                         db.actualizarDineroTotal(new)
                     }
                     operaciones_resueltas ++

@@ -2,6 +2,7 @@ package com.example.snakemath
 
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,5 +22,11 @@ class Configuracion : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        var db: DBsqlite = DBsqlite(this)
+        val dinero: TextView = findViewById(R.id.monedas)
+
+        dinero.text = "${db.obtenerDineroTotal().toInt()}"
+
     }
 }

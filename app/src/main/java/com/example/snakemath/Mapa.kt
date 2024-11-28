@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 class Mapa : AppCompatActivity() {
@@ -21,6 +22,9 @@ class Mapa : AppCompatActivity() {
         setContentView(R.layout.activity_map)
 
         var db: DBsqlite = DBsqlite(this)
+        val dinero: TextView = findViewById(R.id.monedas)
+
+        dinero.text = "${db.obtenerDineroTotal().toInt()}"
 
         canvasMap = findViewById(R.id.map_view)
         joystick = findViewById(R.id.joystick_view)
