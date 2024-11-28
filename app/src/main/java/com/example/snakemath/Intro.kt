@@ -32,6 +32,11 @@ class Intro: AppCompatActivity() {
             startActivity(intent)
         }
 
+        config.setOnClickListener{
+            val intent = Intent(this, Configuracion::class.java)
+            startActivity(intent)
+        }
+
         tutorial.setOnClickListener{
             val intent = Intent(this, TutorialSuma::class.java)
             startActivity(intent)
