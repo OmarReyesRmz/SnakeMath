@@ -25,7 +25,13 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
                     "tipoSerpiente TEXT NOT NULL," +      // Tipo de serpiente elegida por el jugador
                     "iman INTEGER NOT NULL," +
                     "monedax5 INTEGER NOT NULL," +
-                    "estrella INTEGER NOT NULL" +
+                    "estrella INTEGER NOT NULL," +
+                    "serpiente1 INTEGER NOT NULL," +
+                    "serpiente2 INTEGER NOT NULL," +
+                    "serpiente3 INTEGER NOT NULL," +
+                    "serpiente4 INTEGER NOT NULL," +
+                    "serpiente5 INTEGER NOT NULL," +
+                    "serpiente6 INTEGER NOT NULL" +
                     ")"
         )
     }
@@ -52,11 +58,12 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
     }
 
 
-    fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int,mundo_jugando: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String, iman: Int, monedax5: Int, estrella: Int){
+    fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int,mundo_jugando: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String, iman: Int, monedax5: Int, estrella: Int,
+                     serpiente1:Int, serpiente2:Int, serpiente3:Int, serpiente4:Int, serpiente5:Int, serpiente6:Int    ){
         val db = writableDatabase
         db.execSQL(
-            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, iman, monedax5, estrella ) " +
-                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente', $iman, $monedax5, $estrella)"
+            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, iman, monedax5, estrella,serpiente1, serpiente2, serpiente3, sepiente4, serpiente5, sepiente6 ) " +
+                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente', $iman, $monedax5, $estrella, '$serpiente1', '$serpiente2', '$serpiente3', '$serpiente4', '$serpiente5', '$serpiente6')"
         )
 
     }
@@ -121,6 +128,43 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
         db.execSQL("UPDATE $TABLE_NAME SET estrella = '$estrella'")
         db.close()
     }
+
+    fun actualizarserpiente1(serpiente1: Int){
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET serpiente1 = '$serpiente1'")
+        db.close()
+    }
+
+    fun actualizarserpiente2(serpiente2: Int){
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET serpiente2 = '$serpiente2'")
+        db.close()
+    }
+
+    fun actualizarserpiente3(serpiente3: Int){
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET serpiente3 = '$serpiente3'")
+        db.close()
+    }
+
+    fun actualizarserpiente4(serpiente4: Int){
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET serpiente4 = '$serpiente4'")
+        db.close()
+    }
+
+    fun actualizarserpiente5(serpiente5: Int){
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET serpiente5 = '$serpiente5'")
+        db.close()
+    }
+
+    fun actualizarserpiente6(serpiente6: Int){
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET serpiente6 = '$serpiente6'")
+        db.close()
+    }
+
 
     // Métodos para obtener valores (GET)
     fun obtenerNivel(): Int {
@@ -232,4 +276,71 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
         cursor.close()
         return estrella
     }
+
+    fun obtenerserpiente1(): Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT serpiente1 FROM $TABLE_NAME", null)
+        var serpiente1 = 0
+        if (cursor.moveToFirst()){
+            serpiente1 = cursor.getInt(0)
+        }
+        cursor.close()
+        return serpiente1
+    }
+
+    fun obtenerserpiente2(): Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT serpiente2 FROM $TABLE_NAME", null)
+        var serpiente2 = 0
+        if (cursor.moveToFirst()){
+            serpiente2 = cursor.getInt(0)
+        }
+        cursor.close()
+        return serpiente2
+    }
+
+    fun obtenerserpiente3(): Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT serpiente3 FROM $TABLE_NAME", null)
+        var serpiente3 = 0
+        if (cursor.moveToFirst()){
+            serpiente3 = cursor.getInt(0)
+        }
+        cursor.close()
+        return serpiente3
+    }
+
+    fun obtenerserpiente4(): Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT serpiente4 FROM $TABLE_NAME", null)
+        var serpiente4 = 0
+        if (cursor.moveToFirst()){
+            serpiente4 = cursor.getInt(0)
+        }
+        cursor.close()
+        return serpiente4
+    }
+
+    fun obtenerserpiente5(): Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT serpiente5 FROM $TABLE_NAME", null)
+        var serpiente5 = 0
+        if (cursor.moveToFirst()){
+            serpiente5 = cursor.getInt(0)
+        }
+        cursor.close()
+        return serpiente5
+    }
+
+    fun obtenerserpiente6(): Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT serpiente6 FROM $TABLE_NAME", null)
+        var serpiente6 = 0
+        if (cursor.moveToFirst()){
+            serpiente6 = cursor.getInt(0)
+        }
+        cursor.close()
+        return serpiente6
+    }
+
 }

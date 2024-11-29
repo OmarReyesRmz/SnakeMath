@@ -36,6 +36,12 @@ class Configuracion : AppCompatActivity() {
         var costoiman: TextView = findViewById(R.id.costoiman)
         var costoestrella: TextView = findViewById(R.id.costoestrella)
         var costomoneda: TextView = findViewById(R.id.costomonedas)
+        val snakeclasica = findViewById<LinearLayout>(R.id.snakeclasica)
+        val snakered: LinearLayout = findViewById(R.id.snakered)
+        val snakecyan: LinearLayout = findViewById(R.id.snakecyan)
+        val snakeyellow: LinearLayout = findViewById(R.id.snakeyellow)
+        val snakegreen: LinearLayout = findViewById(R.id.snakegreen)
+        val snakeorange: LinearLayout = findViewById(R.id.snakeorange)
 
         if(db.obteneriman() == 1){
                 costoiman.text = "150"
@@ -136,6 +142,14 @@ class Configuracion : AppCompatActivity() {
                     dinero.text = "${db.obtenerDineroTotal().toInt()}"
                 }
             }
+        }
+
+        snakeclasica.setOnClickListener{
+            db.actualizarTipoSerpiente("serpiente1")
+        }
+
+        snakered.setOnClickListener{
+
         }
 
 
