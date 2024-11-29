@@ -62,8 +62,8 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
                      serpiente1:Int, serpiente2:Int, serpiente3:Int, serpiente4:Int, serpiente5:Int, serpiente6:Int    ){
         val db = writableDatabase
         db.execSQL(
-            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, iman, monedax5, estrella,serpiente1, serpiente2, serpiente3, sepiente4, serpiente5, sepiente6 ) " +
-                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente', $iman, $monedax5, $estrella, '$serpiente1', '$serpiente2', '$serpiente3', '$serpiente4', '$serpiente5', '$serpiente6')"
+            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, iman, monedax5, estrella,serpiente1, serpiente2, serpiente3, serpiente4, serpiente5, serpiente6 ) " +
+                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente', $iman, $monedax5, $estrella, $serpiente1, $serpiente2, $serpiente3, $serpiente4, $serpiente5, $serpiente6)"
         )
 
     }

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         var db: DBsqlite = DBsqlite(this)
         if(!db.datosExistentes()){
-            db.guardarDatos(1,0,1,1,0,10000f,"clasica",0,0,1, 1,0,0,0,0,0)
+            db.guardarDatos(1,0,1,1,0,10000f,"serpiente1",0,0,1, 1,0,0,0,0,0)
         }
 
         val intent = Intent(this, Intro::class.java)

@@ -1,8 +1,11 @@
 package com.example.snakemath
 
+import android.media.Image
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +45,19 @@ class Configuracion : AppCompatActivity() {
         val snakeyellow: LinearLayout = findViewById(R.id.snakeyellow)
         val snakegreen: LinearLayout = findViewById(R.id.snakegreen)
         val snakeorange: LinearLayout = findViewById(R.id.snakeorange)
+
+        val serpiente2: ImageView = findViewById(R.id.rojo)
+        val serpiente3: ImageView = findViewById(R.id.cyan)
+        val serpiente4: ImageView = findViewById(R.id.amarillo)
+        val serpiente5: ImageView = findViewById(R.id.verde)
+        val serpiente6: ImageView = findViewById(R.id.naranja)
+
+        var txtrojo: TextView = findViewById(R.id.txtrojo)
+        var txtcyan: TextView = findViewById(R.id.txtcyan)
+        var txtamarillo: TextView = findViewById(R.id.txtamarillo)
+        var txtverde: TextView = findViewById(R.id.txtverde)
+        var txtnaranja: TextView = findViewById(R.id.txtnaranja)
+
 
         if(db.obteneriman() == 1){
                 costoiman.text = "150"
@@ -145,11 +161,78 @@ class Configuracion : AppCompatActivity() {
         }
 
         snakeclasica.setOnClickListener{
+
             db.actualizarTipoSerpiente("serpiente1")
         }
 
         snakered.setOnClickListener{
+            if (db.obtenerserpiente2() == 0){
+                if (db.obtenerDineroTotal().toInt() >= 200){
+                    db.actualizarTipoSerpiente("serpiente2")
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 200)
+                    db.actualizarserpiente2(1)
+                    serpiente2.setImageResource(R.drawable.snakerojo)
+                    txtrojo.text="-"
+                }
+            }else{
+                db.actualizarTipoSerpiente("serpiente2")
+            }
+        }
 
+        snakecyan.setOnClickListener{
+            if (db.obtenerserpiente3() == 0){
+                if (db.obtenerDineroTotal().toInt() >= 200){
+                    db.actualizarTipoSerpiente("serpiente3")
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 200)
+                    db.actualizarserpiente3(1)
+                    serpiente3.setImageResource(R.drawable.snakecyan)
+                    txtcyan.text="-"
+                }
+            }else{
+                db.actualizarTipoSerpiente("serpiente3")
+            }
+        }
+
+        snakeyellow.setOnClickListener{
+            if (db.obtenerserpiente4() == 0){
+                if (db.obtenerDineroTotal().toInt() >= 200){
+                    db.actualizarTipoSerpiente("serpiente4")
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 200)
+                    db.actualizarserpiente4(1)
+                    serpiente4.setImageResource(R.drawable.snakeyellow)
+                    txtamarillo.text="-"
+                }
+            }else{
+                db.actualizarTipoSerpiente("serpiente4")
+            }
+        }
+
+        snakegreen.setOnClickListener{
+            if (db.obtenerserpiente5() == 0){
+                if (db.obtenerDineroTotal().toInt() >= 200){
+                    db.actualizarTipoSerpiente("serpiente5")
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 200)
+                    db.actualizarserpiente5(1)
+                    serpiente5.setImageResource(R.drawable.snakegreen)
+                    txtverde.text="-"
+                }
+            }else{
+                db.actualizarTipoSerpiente("serpiente5")
+            }
+        }
+
+        snakeorange.setOnClickListener{
+            if (db.obtenerserpiente6() == 0){
+                if (db.obtenerDineroTotal().toInt() >= 200){
+                    db.actualizarTipoSerpiente("serpiente6")
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 200)
+                    db.actualizarserpiente6(1)
+                    serpiente6.setImageResource(R.drawable.snakeorange)
+                    txtnaranja.text="-"
+                }
+            }else{
+                db.actualizarTipoSerpiente("serpiente6")
+            }
         }
 
 
