@@ -19,6 +19,8 @@ class GameView @JvmOverloads constructor(
 
     private val paint = Paint()
     private val gridSize = 100f
+    private var perdio = false
+    private var estrella = false
     private var bolitaX = gridSize
     private var bolitaY = gridSize
     val maxWidth = 350 * resources.displayMetrics.density
@@ -152,6 +154,7 @@ class GameView @JvmOverloads constructor(
         Manzanas(R.drawable.apple98, "numero", 98),
         Manzanas(R.drawable.apple99, "numero", 99),
         Manzanas(R.drawable.apple100, "numero", 100),
+        Manzanas(R.drawable.estrella, "estrella", 0),
         Manzanas(R.drawable.applesum, "operacion", 9996),
         Manzanas(R.drawable.applediv, "operacion", 9997),
         Manzanas(R.drawable.applemult, "operacion", 9998),
@@ -199,6 +202,14 @@ class GameView @JvmOverloads constructor(
 
             val tamaño =  manzanas2.size
             var manzanaAleatoria = manzanas2[tamaño-1]
+            var manzanaAleatoria2 = manzanas2[tamaño-1]
+            if(db.obtenerestrella() > 0) {
+                val probabilidad = Random.nextInt(1, 100) // Genera un número entre 1 y 50
+                if (probabilidad <= 2 * db.obtenerestrella() ){
+                    manzanaAleatoria2 = manzanas2[100]
+                    estrella = true
+                }
+            }
             if(db.obtenerMundoJugando()  == 1) {
                 if(db.obtenerNivelJugando() >= 1 && db.obtenerNivelJugando() <= 3) {
                     while (manzanaAleatoria.tipo != "numero" || manzanaAleatoria.numero >= 10) {
@@ -305,6 +316,11 @@ class GameView @JvmOverloads constructor(
                         }
                     }
                 }
+            }
+
+            if(estrella){
+                manzanaAleatoria = manzanaAleatoria2
+                estrella = false
             }
 
             val nuevaManzana = Manzanas(
@@ -503,9 +519,13 @@ class GameView @JvmOverloads constructor(
     }
 
     private fun resetGame() {
-        new += db.obtenerDineroTotal().toInt()
-        db.actualizarDineroTotal(new/2)
-        onOperacionGeneradaListener?.invoke("perdio",operaciones_resueltas)
+        if(perdio == false) {
+            new = new / 2
+            Log.d("c", "monedas $new")
+            db.actualizarDineroTotal((db.obtenerDineroTotal() + new).toInt())
+            onOperacionGeneradaListener?.invoke("perdio", operaciones_resueltas)
+            perdio = true
+        }
     }
 
     fun setOnOperacionGeneradaListener(listener: (String, Int) -> Unit) {
@@ -532,6 +552,11 @@ class GameView @JvmOverloads constructor(
                         generateOperation()
                     }
                 }
+                if(manzana.tipo == "estrella"){
+                    new += 100
+                    scoreTextView2?.text = "$new"
+                    manzanasEnElMapa.remove(manzana)
+                }
 
                 // Verificar si ya se tienen 3 elementos en `operacionarray`
                 if (operacionarray.size == 3) {
@@ -550,8 +575,7 @@ class GameView @JvmOverloads constructor(
                 if (manzana.bandera1){
                     score ++
                     if(operaciones_resueltas + 1 == 5){
-                        new += db.obtenerDineroTotal().toInt()
-                        db.actualizarDineroTotal(new)
+                        db.actualizarDineroTotal( db.obtenerDineroTotal().toInt() + new)
                     }
                     operaciones_resueltas ++
                     manzana.bandera1 = false
@@ -566,8 +590,7 @@ class GameView @JvmOverloads constructor(
                 }else if(!manzana.bandera1){
                     score -= 5
                     if(operaciones_resueltas + 1 == 5){
-                        new += db.obtenerDineroTotal().toInt()
-                        db.actualizarDineroTotal(new)
+                        db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() + new)
                     }
                     operaciones_resueltas ++
                     manzana.bandera1 = false

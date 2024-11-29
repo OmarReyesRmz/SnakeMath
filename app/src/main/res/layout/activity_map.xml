@@ -19,7 +19,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:background="@color/white2"
-        android:layout_marginRight="300dp"
+        android:layout_marginRight="310dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

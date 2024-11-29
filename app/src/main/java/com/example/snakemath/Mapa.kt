@@ -38,6 +38,7 @@ class Mapa : AppCompatActivity() {
         navigateButton.setOnClickListener {
             val intent = Intent(this, Level::class.java)
             startActivity(intent)
+            finish()
         }
 
         // Resto del código para joystick y otros elementos

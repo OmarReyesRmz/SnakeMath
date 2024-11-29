@@ -22,7 +22,10 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
                     "mundo_jugando INTEGER NOT NULL," +
                     "esPrimeraVez INTEGER NOT NULL," +   // 1 para true (sí es la primera vez), 0 para false
                     "dineroTotal REAL NOT NULL DEFAULT 0," +  // Dinero acumulado
-                    "tipoSerpiente TEXT NOT NULL" +      // Tipo de serpiente elegida por el jugador
+                    "tipoSerpiente TEXT NOT NULL," +      // Tipo de serpiente elegida por el jugador
+                    "iman INTEGER NOT NULL," +
+                    "monedax5 INTEGER NOT NULL," +
+                    "estrella INTEGER NOT NULL" +
                     ")"
         )
     }
@@ -49,11 +52,11 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
     }
 
 
-    fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int,mundo_jugando: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String){
+    fun guardarDatos(nivel: Int,nivel_jugando:Int, mundo: Int,mundo_jugando: Int, primeravez: Int, dineroTotal: Float, tipoSerpiente: String, iman: Int, monedax5: Int, estrella: Int){
         val db = writableDatabase
         db.execSQL(
-            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, ) " +
-                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente')"
+            "INSERT INTO $TABLE_NAME (nivel,nivel_jugando, mundo,mundo_jugando, esPrimeraVez, dineroTotal, tipoSerpiente, iman, monedax5, estrella ) " +
+                    "VALUES($nivel,$nivel_jugando, $mundo,$mundo_jugando, $primeravez, $dineroTotal, '$tipoSerpiente', $iman, $monedax5, $estrella)"
         )
 
     }
@@ -98,6 +101,24 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
     fun actualizarTipoSerpiente(tipoSerpiente: String) {
         val db = writableDatabase
         db.execSQL("UPDATE $TABLE_NAME SET tipoSerpiente = '$tipoSerpiente'")
+        db.close()
+    }
+
+    fun actualizariman(iman: Int) {
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET iman = '$iman'")
+        db.close()
+    }
+
+    fun actualizarmonedax5(monedax5: Int) {
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET monedax5 = '$monedax5'")
+        db.close()
+    }
+
+    fun actualizarestrella(estrella: Int) {
+        val db = writableDatabase
+        db.execSQL("UPDATE $TABLE_NAME SET estrella = '$estrella'")
         db.close()
     }
 
@@ -177,5 +198,38 @@ class DBsqlite(context: Context?): SQLiteOpenHelper(context, TABLE_NAME, null, D
         }
         cursor.close()
         return tipoSerpiente
+    }
+
+    fun obteneriman(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT iman FROM $TABLE_NAME", null)
+        var iman = -1
+        if (cursor.moveToFirst()) {
+            iman = cursor.getInt(0)
+        }
+        cursor.close()
+        return iman
+    }
+
+    fun obtenermonedax5(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT monedax5 FROM $TABLE_NAME", null)
+        var monedax5 = -1
+        if (cursor.moveToFirst()) {
+            monedax5 = cursor.getInt(0)
+        }
+        cursor.close()
+        return monedax5
+    }
+
+    fun obtenerestrella(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT estrella FROM $TABLE_NAME", null)
+        var estrella = -1
+        if (cursor.moveToFirst()) {
+            estrella = cursor.getInt(0)
+        }
+        cursor.close()
+        return estrella
     }
 }

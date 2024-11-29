@@ -16,7 +16,7 @@ class Level : AppCompatActivity(), OnLifeLostListener {
     private lateinit var corazon1: ImageView
     private lateinit var corazon2: ImageView
     private lateinit var corazon3: ImageView
-    private var vidasRestantes = 3
+    private lateinit var intent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class Level : AppCompatActivity(), OnLifeLostListener {
 
         setContentView(R.layout.activity_level)
 
-
+        intent = Intent(this, Mapa::class.java)
 
         var db: DBsqlite = DBsqlite(this)
         if(db.obtenerMundo() == 1){
@@ -63,15 +63,11 @@ class Level : AppCompatActivity(), OnLifeLostListener {
                     db.actualizarNivel(db.obtenerNivel() + 1)
                 }
 
-                val intent = Intent(this, Mapa::class.java)
+
 
                 if(db.obtenerNivel() == 6 && db.obtenerMundo() == 1) {
                     db.actualizarMundo(2)
                     db.actualizarPrimeraVez(2)
-                    //termina el level cuando gana
-//                    Handler(Looper.getMainLooper()).postDelayed({
-//                        finish()
-//                    }, 1000)
                     startActivity(intent)
                     finish()
                 }else if(db.obtenerNivel() == 9 && db.obtenerMundo() == 2){
@@ -108,6 +104,7 @@ class Level : AppCompatActivity(), OnLifeLostListener {
 
     fun actualizarOperacion(operacion: String, Operaciones_resueltas: Int): Boolean{
         if(operacion == "perdio") {
+            startActivity(intent)
             finish()
         }else{
             operacionTextView.text = operacion

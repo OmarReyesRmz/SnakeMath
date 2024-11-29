@@ -1,7 +1,9 @@
 package com.example.snakemath
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +29,115 @@ class Configuracion : AppCompatActivity() {
         val dinero: TextView = findViewById(R.id.monedas)
 
         dinero.text = "${db.obtenerDineroTotal().toInt()}"
+
+        val iman: LinearLayout = findViewById(R.id.iman)
+        val monedax5: LinearLayout = findViewById(R.id.monedax5)
+        val estrella: LinearLayout = findViewById(R.id.estrella)
+        var costoiman: TextView = findViewById(R.id.costoiman)
+        var costoestrella: TextView = findViewById(R.id.costoestrella)
+        var costomoneda: TextView = findViewById(R.id.costomonedas)
+
+        if(db.obteneriman() == 1){
+                costoiman.text = "150"
+        }else if(db.obteneriman() == 2){
+                costoiman.text = "500"
+        }else if(db.obteneriman() == 3){
+                costoiman.text = "M A X"
+        }
+
+        if(db.obtenermonedax5() == 1){
+            costomoneda.text = "150"
+        }else if(db.obtenermonedax5() == 2){
+            costomoneda.text = "500"
+        }else if(db.obtenermonedax5() == 3){
+            costomoneda.text = "M A X"
+        }
+
+        if(db.obtenerestrella() == 1){
+            costoestrella.text = "150"
+        }else if(db.obtenerestrella() == 2){
+            costoestrella.text = "500"
+        }else if(db.obtenerestrella() == 3){
+            costoestrella.text = "M A X"
+        }
+
+
+        iman.setOnClickListener{
+            if(db.obteneriman() == 0){
+                if(db.obtenerDineroTotal().toInt() >= 30){
+                    db.actualizariman(1)
+                    costoiman.text = "150"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 30)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }else if(db.obteneriman() == 1){
+                if(db.obtenerDineroTotal().toInt() >= 150){
+                    db.actualizariman(2)
+                    costoiman.text = "500"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 150)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }else if(db.obteneriman() == 2){
+                if(db.obtenerDineroTotal().toInt() >= 500){
+                    db.actualizariman(3)
+                    costoiman.text = "M A X"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 500)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }
+        }
+
+        monedax5.setOnClickListener {
+            if(db.obtenermonedax5() == 0){
+                if(db.obtenerDineroTotal().toInt() >= 30){
+                    db.actualizarmonedax5(1)
+                    costomoneda.text = "150"
+                    Log.d("c","Entre")
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 30)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }else if(db.obtenermonedax5() == 1){
+                if(db.obtenerDineroTotal().toInt() >= 150){
+                    db.actualizarmonedax5(2)
+                    costomoneda.text = "500"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 150)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }else if(db.obtenermonedax5() == 2){
+                if(db.obtenerDineroTotal().toInt() >= 500){
+                    db.actualizarmonedax5(3)
+                    costomoneda.text = "M A X"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 500)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }
+        }
+
+        estrella.setOnClickListener {
+            if(db.obtenerestrella() == 0){
+                if(db.obtenerDineroTotal().toInt() >= 30){
+                    db.actualizarestrella(1)
+                    costoestrella.text = "150"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 30)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }else if(db.obtenerestrella() == 1){
+                if(db.obtenerDineroTotal().toInt() >= 150){
+                    db.actualizarestrella(2)
+                    costoestrella.text = "500"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 150)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }else if(db.obtenerestrella() == 2){
+                if(db.obtenerDineroTotal().toInt() >= 500){
+                    db.actualizarestrella(3)
+                    costoestrella.text = "M A X"
+                    db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() - 500)
+                    dinero.text = "${db.obtenerDineroTotal().toInt()}"
+                }
+            }
+        }
+
 
     }
 }
