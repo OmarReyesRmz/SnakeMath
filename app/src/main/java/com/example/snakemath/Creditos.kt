@@ -36,16 +36,13 @@ class Creditos : AppCompatActivity(), SensorEventListener {
             insets
         }
 
-        // Inicializar TextView
         nombresTextView = findViewById(R.id.nombres)
         nombresTextView.text = "Alan Kaled Guerrero Ortiz\nOmar Reyes Ramirez"
 
-        // Obtener dimensiones de la pantalla
         val displayMetrics = resources.displayMetrics
         screenWidth = displayMetrics.widthPixels
         screenHeight = displayMetrics.heightPixels
-
-        // Configurar sensor
+        
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
