@@ -7,7 +7,6 @@
     android:background="@drawable/fondo_normal"
     tools:context=".Creditos">
 
-    <!-- Título "Creadores" en la parte superior con negritas -->
     <TextView
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@
         android:layout_marginTop="20dp"
         android:gravity="center" />
 
-    <!-- TextView con los nombres en color blanco -->
     <TextView
         android:id="@+id/nombres"
         android:layout_width="wrap_content"
