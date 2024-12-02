@@ -26,6 +26,7 @@ class Intro: AppCompatActivity() {
         val jugar: Button = findViewById(R.id.button)
         val config: Button = findViewById(R.id.button2)
         val tutorial: Button = findViewById(R.id.button4)
+        val creditos: Button = findViewById(R.id.button5)
 
         jugar.setOnClickListener{
             val intent = Intent(this,Mapa::class.java)
@@ -39,6 +40,11 @@ class Intro: AppCompatActivity() {
 
         tutorial.setOnClickListener{
             val intent = Intent(this, TutorialSuma::class.java)
+            startActivity(intent)
+        }
+
+        creditos.setOnClickListener{
+            val intent = Intent(this, Creditos::class.java)
             startActivity(intent)
         }
     }

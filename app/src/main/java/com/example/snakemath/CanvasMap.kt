@@ -35,6 +35,39 @@ class CanvasMap @JvmOverloads constructor(
         personajeHeight,
         true
     )
+    private val personaje2Bitmap = Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.snake2),
+        personajeWidth,
+        personajeHeight,
+        true
+    )
+
+    private val personaje3Bitmap = Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.snake3),
+        personajeWidth,
+        personajeHeight,
+        true
+    )
+    private val personaje4Bitmap = Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.snake4),
+        personajeWidth,
+        personajeHeight,
+        true
+    )
+
+    private val personaje5Bitmap = Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.snake5),
+        personajeWidth,
+        personajeHeight,
+        true
+    )
+
+    private val personaje6Bitmap = Bitmap.createScaledBitmap(
+        BitmapFactory.decodeResource(resources, R.drawable.snake6),
+        personajeWidth,
+        personajeHeight,
+        true
+    )
 
     private val banderawidth = 300
     private val banderaheight = 300
@@ -132,6 +165,8 @@ class CanvasMap @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        val tipoSerpiente = db.obtenerTipoSerpiente()
+
         val offsetX = when {
             personajeX < viewWidth / 2 -> 0f
             personajeX > mapBitmap.width - viewWidth / 2 -> (mapBitmap.width - viewWidth).toFloat()
@@ -227,7 +262,20 @@ class CanvasMap @JvmOverloads constructor(
         }
 
         // Dibuja el personaje
-        canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
+        if (tipoSerpiente == "serpiente1"){
+            canvas.drawBitmap(personajeBitmap, personajeMatrix, null)
+        }else if (tipoSerpiente == "serpiente2"){
+            canvas.drawBitmap(personaje2Bitmap, personajeMatrix, null)
+        }else if (tipoSerpiente == "serpiente3"){
+            canvas.drawBitmap(personaje3Bitmap, personajeMatrix, null)
+        }else if (tipoSerpiente == "serpiente4"){
+            canvas.drawBitmap(personaje4Bitmap, personajeMatrix, null)
+        }else if(tipoSerpiente == "serpiente5"){
+            canvas.drawBitmap(personaje5Bitmap, personajeMatrix, null)
+        }else if (tipoSerpiente == "serpiente6"){
+            canvas.drawBitmap(personaje6Bitmap, personajeMatrix, null)
+        }
+
 
         // Verificar si el personaje está cerca de una de las primeras cinco banderas
         val isNearFlag = banderaPositions.take(db.obtenerNivel()).any { (flagX, flagY) ->
