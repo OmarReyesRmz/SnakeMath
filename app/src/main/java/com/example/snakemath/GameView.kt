@@ -31,8 +31,8 @@ class GameView @JvmOverloads constructor(
     var db: DBsqlite = DBsqlite(context)
     private val snakeBody = mutableListOf<Pair<Float, Float>>()
     private val snakeDirections = mutableListOf<Direction>()
-    private var headBitmap: Bitmap
-    private var bodyBitmap: Bitmap
+    private lateinit var headBitmap: Bitmap
+    private lateinit var bodyBitmap: Bitmap
     private var new = 0
 
     private enum class Direction { UP, DOWN, LEFT, RIGHT }
@@ -174,15 +174,62 @@ class GameView @JvmOverloads constructor(
 
         startMovement()
 
-        headBitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(resources, R.drawable.chompa),
-            headwidth,
-            headheight,
-            true)
+        if (db.obtenerTipoSerpiente() == "serpiente1"){
+            headBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.chompa),
+                headwidth,
+                headheight,
+                true)
+            bodyBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.body),
+                bodywidth, bodyheight, true)
 
-        bodyBitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(resources, R.drawable.body),
-            bodywidth, bodyheight, true)
+        }else if (db.obtenerTipoSerpiente() == "serpiente2"){
+            headBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.chompa2),
+                headwidth,
+                headheight,
+                true)
+            bodyBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.body2),
+                bodywidth, bodyheight, true)
+        }else if (db.obtenerTipoSerpiente() == "serpiente3"){
+            headBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.chompa3),
+                headwidth,
+                headheight,
+                true)
+            bodyBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.body3),
+                bodywidth, bodyheight, true)
+        }else if (db.obtenerTipoSerpiente() == "serpiente4"){
+            headBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.chompa4),
+                headwidth,
+                headheight,
+                true)
+            bodyBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.body4),
+                bodywidth, bodyheight, true)
+        }else if (db.obtenerTipoSerpiente() == "serpiente5"){
+            headBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.chompa5),
+                headwidth,
+                headheight,
+                true)
+            bodyBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.body5),
+                bodywidth, bodyheight, true)
+        }else if (db.obtenerTipoSerpiente() == "serpiente6"){
+            headBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.chompa6),
+                headwidth,
+                headheight,
+                true)
+            bodyBitmap = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.body6),
+                bodywidth, bodyheight, true)
+        }
     }
 
 
