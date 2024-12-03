@@ -177,7 +177,7 @@ class GameView @JvmOverloads constructor(
         startMovement()
 
         headBitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(resources, R.drawable.chompa),
+            BitmapFactory.decodeResource(resources, R.drawable.chompa1),
             headwidth,
             headheight,
             true)
