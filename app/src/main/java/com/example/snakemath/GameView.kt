@@ -161,7 +161,7 @@ class GameView @JvmOverloads constructor(
         Manzanas(R.drawable.appleres, "operacion", 9999)
     )
 
-    private var onOperacionGeneradaListener: ((String, Int) -> Unit)? = null
+    private var onOperacionGeneradaListener: ((String, Int,Int) -> Unit)? = null
 
     init {
         gestureDetector = GestureDetectorCompat(context, GestureListener())
@@ -523,12 +523,12 @@ class GameView @JvmOverloads constructor(
             new = new / 2
             Log.d("c", "monedas $new")
             db.actualizarDineroTotal((db.obtenerDineroTotal() + new).toInt())
-            onOperacionGeneradaListener?.invoke("perdio", operaciones_resueltas)
+            onOperacionGeneradaListener?.invoke("perdio", operaciones_resueltas, vidasRestantes)
             perdio = true
         }
     }
 
-    fun setOnOperacionGeneradaListener(listener: (String, Int) -> Unit) {
+    fun setOnOperacionGeneradaListener(listener: (String, Int,Int) -> Unit) {
         onOperacionGeneradaListener = listener
     }
 
@@ -562,7 +562,7 @@ class GameView @JvmOverloads constructor(
                 if (operacionarray.size == 3) {
 
                     val operacionString = construirOperacion()
-                    onOperacionGeneradaListener?.invoke(operacionString,operaciones_resueltas)
+                    onOperacionGeneradaListener?.invoke(operacionString,operaciones_resueltas, vidasRestantes)
                     //operacionTextView.text = operacionString
 
                 }
@@ -585,7 +585,7 @@ class GameView @JvmOverloads constructor(
                     snakeBody.add(Pair(bolitaX, bolitaY))
                     manzanasEnElMapa2.clear()
                     operacionarray.clear()
-                    onOperacionGeneradaListener?.invoke("",operaciones_resueltas)
+                    onOperacionGeneradaListener?.invoke("",operaciones_resueltas, vidasRestantes)
                     generateRandomManzana()
                 }else if(!manzana.bandera1){
                     score -= 5
@@ -604,12 +604,17 @@ class GameView @JvmOverloads constructor(
                     scoreTextView2?.text = "$new"
                     manzanasEnElMapa2.clear()
                     operacionarray.clear()
-                    onOperacionGeneradaListener?.invoke("",operaciones_resueltas)
+                    onOperacionGeneradaListener?.invoke("",operaciones_resueltas,vidasRestantes)
                     generateRandomManzana()
 
                     // Notifica al listener sobre la pérdida de una vida
                     if (vidasRestantes > 0) {
                         vidasRestantes--
+                        if(vidasRestantes == 0){
+                            new = new / 2
+                            Log.d("c", "monedas $new")
+                            db.actualizarDineroTotal((db.obtenerDineroTotal() + new).toInt())
+                        }
                         onLifeLostListener?.onLifeLost(vidasRestantes)
                     }
 

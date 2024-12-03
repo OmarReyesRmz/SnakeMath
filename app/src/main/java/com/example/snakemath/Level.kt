@@ -57,8 +57,8 @@ class Level : AppCompatActivity(), OnLifeLostListener {
         gameView.setScoreTextView2(scoreTextView2)
 
         // Configurar el listener para operaciones
-        gameView.setOnOperacionGeneradaListener { operacion, operacionesResueltas ->
-            if(actualizarOperacion(operacion, operacionesResueltas)){
+        gameView.setOnOperacionGeneradaListener { operacion, operacionesResueltas, vidas ->
+            if(actualizarOperacion(operacion, operacionesResueltas,vidas)){
                 if(db.obtenerNivel() == db.obtenerNivelJugando()) {
                     db.actualizarNivel(db.obtenerNivel() + 1)
                 }
@@ -99,13 +99,21 @@ class Level : AppCompatActivity(), OnLifeLostListener {
         }else if(vidasRestantes == 1){
             corazon2.setImageResource(R.drawable.lifeempty)
             corazon3.setImageResource(R.drawable.lifeempty)
+        }else if(vidasRestantes == 0){
+            corazon1.setImageResource(R.drawable.lifeempty)
+            corazon2.setImageResource(R.drawable.lifeempty)
+            corazon3.setImageResource(R.drawable.lifeempty)
+            startActivity(intent)
+            finish()
         }
     }
 
-    fun actualizarOperacion(operacion: String, Operaciones_resueltas: Int): Boolean{
+    fun actualizarOperacion(operacion: String, Operaciones_resueltas: Int, Vidas: Int): Boolean{
         if(operacion == "perdio") {
-            startActivity(intent)
-            finish()
+            if(Vidas != 0){
+                startActivity(intent)
+                finish()
+            }
         }else{
             operacionTextView.text = operacion
         }

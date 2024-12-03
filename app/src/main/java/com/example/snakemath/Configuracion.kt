@@ -59,6 +59,32 @@ class Configuracion : AppCompatActivity() {
         var txtnaranja: TextView = findViewById(R.id.txtnaranja)
 
 
+        if(db.obtenerserpiente2() == 1){
+            serpiente2.setImageResource(R.drawable.snakerojo)
+            txtrojo.text = "-"
+        }
+
+        if(db.obtenerserpiente3() == 1){
+            serpiente3.setImageResource(R.drawable.snakecyan)
+            txtcyan.text = "-"
+        }
+
+        if(db.obtenerserpiente4() == 1){
+            serpiente4.setImageResource(R.drawable.snakeyellow)
+            txtamarillo.text = "-"
+        }
+
+        if(db.obtenerserpiente5() == 1){
+            serpiente5.setImageResource(R.drawable.snakegreen)
+            txtverde.text = "-"
+        }
+
+        if(db.obtenerserpiente6() == 1){
+            serpiente6.setImageResource(R.drawable.snakeorange)
+            txtnaranja.text = "-"
+        }
+
+
         if(db.obteneriman() == 1){
                 costoiman.text = "150"
         }else if(db.obteneriman() == 2){

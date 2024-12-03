@@ -47,7 +47,7 @@
         android:paddingRight="35dp"
         android:paddingLeft="35dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="100dp"
         android:text="Start Game"
         android:visibility="gone"
         android:background="@drawable/contorno_boton"
