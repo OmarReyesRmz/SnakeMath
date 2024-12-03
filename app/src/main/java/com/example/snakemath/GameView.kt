@@ -1,7 +1,6 @@
 package com.example.snakemath
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
@@ -9,7 +8,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GestureDetectorCompat
 import kotlin.random.Random
 
@@ -177,13 +175,13 @@ class GameView @JvmOverloads constructor(
         startMovement()
 
         headBitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(resources, R.drawable.chompa2),
+            BitmapFactory.decodeResource(resources, R.drawable.chompa),
             headwidth,
             headheight,
             true)
 
         bodyBitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(resources, R.drawable.body2),
+            BitmapFactory.decodeResource(resources, R.drawable.body),
             bodywidth, bodyheight, true)
     }
 
