@@ -37,7 +37,7 @@ class Creditos : AppCompatActivity(), SensorEventListener {
         }
 
         nombresTextView = findViewById(R.id.nombres)
-        nombresTextView.text = "Alan Kaled Guerrero Ortiz\nOmar Reyes Ramirez"
+        nombresTextView.text = "DESARROLADORES:\nAlan Kaled Guerrero Ortiz\nOmar Reyes Ramirez\nUAA\nSnakeMath\nHechoo en kotlin\n2024\nPROFESOR\nJose de Jesus Palos Garcia"
 
         val displayMetrics = resources.displayMetrics
         screenWidth = displayMetrics.widthPixels
