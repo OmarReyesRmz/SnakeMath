@@ -216,7 +216,7 @@
                         app:layout_constraintStart_toStartOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="@+id/imageView2"
                         app:shapeAppearanceOverlay="@style/roundedImageRounded"
-                        app:srcCompat="@drawable/suma1"
+                        app:srcCompat="@drawable/divi1"
                         app:strokeWidth="1dp" />
 
                     <ImageView
@@ -240,7 +240,7 @@
                         app:layout_constraintStart_toStartOf="@+id/imageView3"
                         app:layout_constraintTop_toTopOf="@+id/imageView3"
                         app:shapeAppearanceOverlay="@style/roundedImageRounded"
-                        app:srcCompat="@drawable/suma2"
+                        app:srcCompat="@drawable/divi2"
                         app:strokeWidth="1dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
