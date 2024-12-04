@@ -62,9 +62,6 @@ class Level : AppCompatActivity(), OnLifeLostListener {
                 if(db.obtenerNivel() == db.obtenerNivelJugando()) {
                     db.actualizarNivel(db.obtenerNivel() + 1)
                 }
-
-
-
                 if(db.obtenerNivel() == 6 && db.obtenerMundo() == 1) {
                     db.actualizarMundo(2)
                     db.actualizarPrimeraVez(2)
