@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:text="Creadores"
         android:textSize="40dp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
+        android:padding="15sp"
+        android:background="@drawable/cuadro_azul"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
@@ -24,11 +26,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre1\nNombre2"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:background="@drawable/cuadro_azul"
+        android:padding="15sp"
         android:textColor="@android:color/white"
         android:layout_below="@id/titulo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:gravity="center" />
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:gravity="start" />
 
 </RelativeLayout>

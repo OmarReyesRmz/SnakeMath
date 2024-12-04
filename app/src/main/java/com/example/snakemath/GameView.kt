@@ -619,14 +619,19 @@ class GameView @JvmOverloads constructor(
                 snakeDirections.add(currentDirection)
                 if (manzana.bandera1){
                     score ++
-                    if(operaciones_resueltas + 1 == 5){
-                        db.actualizarDineroTotal( db.obtenerDineroTotal().toInt() + new)
-                    }
-                    operaciones_resueltas ++
-                    manzana.bandera1 = false
                     scoreTextView?.text = "S C O R E : $score"
                     new += 2
                     scoreTextView2?.text = "$new"
+                    if(operaciones_resueltas + 1 == 5){
+                        var mult = 1
+                        if(db.obtenermonedax5() > 0){
+                            mult = 5
+                            mult = mult * db.obtenermonedax5()
+                        }
+                        db.actualizarDineroTotal( db.obtenerDineroTotal().toInt() + new*mult)
+                    }
+                    operaciones_resueltas ++
+                    manzana.bandera1 = false
                     snakeBody.add(Pair(bolitaX, bolitaY))
                     manzanasEnElMapa2.clear()
                     operacionarray.clear()
@@ -634,19 +639,24 @@ class GameView @JvmOverloads constructor(
                     generateRandomManzana()
                 }else if(!manzana.bandera1){
                     score -= 5
-                    if(operaciones_resueltas + 1 == 5){
-                        db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() + new)
-                    }
-                    operaciones_resueltas ++
-                    manzana.bandera1 = false
-                    snakeBody.removeAt(snakeBody.size - 1)
-                    snakeBody.removeAt(snakeBody.size - 1)
                     scoreTextView?.text = "S C O R E : $score"
                     new -= 4
                     if(new <= 0){
                         new = 0
                     }
                     scoreTextView2?.text = "$new"
+                    if(operaciones_resueltas + 1 == 5){
+                        var mult = 1
+                        if(db.obtenermonedax5() > 0){
+                            mult = 5
+                            mult = mult * db.obtenermonedax5()
+                        }
+                        db.actualizarDineroTotal(db.obtenerDineroTotal().toInt() + new*mult)
+                    }
+                    operaciones_resueltas ++
+                    manzana.bandera1 = false
+                    snakeBody.removeAt(snakeBody.size - 1)
+                    snakeBody.removeAt(snakeBody.size - 1)
                     manzanasEnElMapa2.clear()
                     operacionarray.clear()
                     onOperacionGeneradaListener?.invoke("",operaciones_resueltas,vidasRestantes)

@@ -107,14 +107,14 @@ class Level : AppCompatActivity(), OnLifeLostListener {
 
     fun actualizarOperacion(operacion: String, Operaciones_resueltas: Int, Vidas: Int): Boolean{
         if(operacion == "perdio") {
-            if(Vidas != 0){
+            if(Vidas != 0 && Operaciones_resueltas != 5){
                 startActivity(intent)
                 finish()
             }
         }else{
             operacionTextView.text = operacion
         }
-        if(Operaciones_resueltas == 5){
+        if(Operaciones_resueltas == 5 && Vidas != 0){
             return true
         }
         return false
