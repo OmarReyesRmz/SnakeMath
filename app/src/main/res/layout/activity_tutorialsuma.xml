@@ -149,7 +149,7 @@
                         android:layout_margin="10dp"
                         android:fontFamily="monospace"
                         android:justificationMode="inter_word"
-                        android:text="Sumar es juntar dos o más números para obtener un número más grande. Por ejemplo, si tienes 2 manzanas y luego consigues 3 manzanas más, ¿cuántas manzanas tienes en total? ¡Vamos a sumar para averiguarlo!"
+                        android:text="Sumar es cominar dos o más números para obtener un total. Por ejemplo, si tienes 2 manzanas y luego consigues 3 manzanas más, ¿cuántas manzanas tienes en total? ¡Vamos a sumar para averiguarlo!"
                         android:textAlignment="inherit"
                         android:textColor="@color/white"
                         android:textSize="16dp"
